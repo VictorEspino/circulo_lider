@@ -131,8 +131,8 @@
                             <div class="flex flex-col" id="distribuidores">
                                 
                                 <div class="pl-5 pt-2">
-                                    <a href="{{route('dashboard')}}">
-                                        <span class="text-lime-600"><i class="fas fa-user-tie"></i></span>
+                                    <a href="{{route('ventas_nueva')}}">
+                                        <span class="text-sky-600"><i class="fas fa-file-signature"></i></span>
                                         Registrar Venta
                                     </a>
                                 </div>     

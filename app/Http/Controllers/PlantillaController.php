@@ -50,7 +50,7 @@ class PlantillaController extends Controller
         $usuario->password=Hash::make('cir');
 
         $usuario->save();
-        return(back()->withStatus('Registro de '.$request->nombre.' creado con exito, numero empleado y usuario de sistema = '.$request->user.''));
+        return(back()->withStatus('OK - Registro de '.$request->nombre.' creado con exito, numero empleado y usuario de sistema = '.$request->user.''));
     }
     public function show_update(Request $request)
     {
@@ -94,6 +94,6 @@ class PlantillaController extends Controller
                   'asd'=>$request->boolean('asd'),
                 ]);
 
-                return(back()->withStatus('La actualizacion del empleado '.$request->nombre.' fue realizada con exito'));
+                return(back()->withStatus('OK - La actualizacion del empleado '.$request->nombre.' fue realizada con exito'));
     }
 }

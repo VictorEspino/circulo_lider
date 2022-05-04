@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlantillaController;
+use App\Http\Controllers\VentasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,9 +30,14 @@ Route::get('/', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
+//RUTAS DE PLANTILLA
 Route::get('/plantilla_nuevo',[PlantillaController::class,'show_nuevo'])->middleware('auth')->name('plantilla_nuevo');
 Route::post('/plantilla_nuevo',[PlantillaController::class,'save_nuevo'])->middleware('auth')->name('plantilla_nuevo');
 Route::get('/plantilla_update',[PlantillaController::class,'show_update'])->middleware('auth')->name('plantilla_update');
 Route::post('/plantilla_update',[PlantillaController::class,'save_update'])->middleware('auth')->name('plantilla_update');
 Route::get('/plantilla_consulta/{user}',[PlantillaController::class,'consulta'])->middleware('auth')->name('plantilla_consulta');
+
+//RUTAS DE VENTAS
+Route::get('/ventas_nueva',[VentasController::class,'show_nueva'])->middleware('auth')->name('ventas_nueva');
+Route::post('/ventas_nueva',[VentasController::class,'save_nueva'])->middleware('auth')->name('ventas_nueva');
 

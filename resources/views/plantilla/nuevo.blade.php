@@ -9,6 +9,11 @@
             <div class="w-full text-sm">({{Auth::user()->user}}) - {{Auth::user()->name}}</div>            
             <div class="w-full text-sm">{{App\Models\User::with('punto_venta')->find(Auth::user()->id)->punto_venta->pdv}}</div>            
         </div> <!--FIN ENCABEZADO-->
+        @if(session('status')!='')
+            <div class="w-full flex justify-center p-3 {{substr(session('status'),0,2)=='OK'?'bg-green-300':'bg-red-400'}}">
+                <span class="font-semibold text-sm text-gray-600">{{session('status')}}</span>
+            </div>    
+        @endif
         <form method="post" action="{{route('plantilla_nuevo')}}">
             @csrf
         <div class="w-full rounded-b-lg bg-white p-3 flex flex-col"> <!--CONTENIDO-->
@@ -118,11 +123,6 @@
         <div class="w-full flex justify-center py-4 bg-white">
             <button class="rounded p-1 border bg-green-500 hover:bg-green-700 text-gray-100 font-semibold">Guardar</button>
         </div>
-        @if(session('status')!='')
-            <div class="w-full flex justify-center p-3 bg-green-300 rounded-b-lg">
-                <span class="font-semibold text-sm text-gray-600">{{session('status')}}</span>
-            </div>    
-        @endif
         </form>
     </div>
 </x-app-layout>
