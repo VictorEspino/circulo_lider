@@ -11,7 +11,8 @@ class Venta extends Model
 
     protected $fillable=[
                     'tipo',
-                    'sucursal',
+                    'area',
+                    'sub_area',
                     'ejecutivo',
                     'fecha',
                     'plan',
@@ -24,8 +25,25 @@ class Venta extends Model
                     'cliente',
                     'co_id',
                     'mail_cliente',
+                    'equipo',
+                    'rfc',
+                    'forma_pago',
+                    'orden',
+                    'cuenta',
                     'addon_control',
                     'seguro_proteccion',
                     'observaciones'
                 ];
+    public function det_ejecutivo()
+    {
+        return $this->belongsTo(User::class,'ejecutivo');
+    }
+    public function det_plan()
+    {
+        return $this->belongsTo(Plan::class,'plan');
+    }
+    public function det_sucursal()
+    {
+        return $this->belongsTo(Subarea::class,'sub_area');
+    }
 }

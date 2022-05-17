@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PlantillaController;
 use App\Http\Controllers\VentasController;
+use App\Http\Controllers\ImportController;
+use App\Http\Controllers\CalculoComisiones;
+use App\Http\Livewire\Usuario\Show;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,14 +33,26 @@ Route::get('/', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
-//RUTAS DE PLANTILLA
-Route::get('/plantilla_nuevo',[PlantillaController::class,'show_nuevo'])->middleware('auth')->name('plantilla_nuevo');
-Route::post('/plantilla_nuevo',[PlantillaController::class,'save_nuevo'])->middleware('auth')->name('plantilla_nuevo');
-Route::get('/plantilla_update',[PlantillaController::class,'show_update'])->middleware('auth')->name('plantilla_update');
-Route::post('/plantilla_update',[PlantillaController::class,'save_update'])->middleware('auth')->name('plantilla_update');
-Route::get('/plantilla_consulta/{user}',[PlantillaController::class,'consulta'])->middleware('auth')->name('plantilla_consulta');
+Route::get('/usuarios',Show::class)->name('usuarios')->middleware('auth');
 
 //RUTAS DE VENTAS
 Route::get('/ventas_nueva',[VentasController::class,'show_nueva'])->middleware('auth')->name('ventas_nueva');
 Route::post('/ventas_nueva',[VentasController::class,'save_nueva'])->middleware('auth')->name('ventas_nueva');
+Route::get('/base_ventas',[VentasController::class,'base_ventas'])->middleware('auth')->name('base_ventas');
 
+//RUTAS ARCHIVOS AT&T
+
+Route::get('/carga_cis',function () {return view('carga_cis');})->middleware('auth')->name('carga_cis');
+Route::post('/carga_cis',[ImportController::class,'carga_cis'])->middleware('auth')->name('carga_cis');
+
+Route::get('/detalle_calculo',function () {return view('detalle_calculo');})->middleware('auth')->name('detalle_calculo');
+Route::get('/seguimiento_att',function () {return view('seguimiento_att');})->middleware('auth')->name('seguimiento_att');
+
+Route::get('/periodo_nuevo',function () {return view('periodo_nuevo');})->middleware('auth')->name('periodo_nuevo');
+
+//RUTAS DE CALCULO COMISIONES
+
+Route::get('/nuevo_calculo',[CalculoComisiones::class,'nuevo'])->middleware('auth')->name('nuevo_calculo');
+Route::post('/nuevo_calculo',[CalculoComisiones::class,'save_nuevo'])->middleware('auth')->name('nuevo_calculo');
+
+Route::get('/calculo_ejecutar/{id}',[CalculoComisiones::class,'calculo_comisiones']);

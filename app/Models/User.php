@@ -23,8 +23,14 @@ class User extends Authenticatable
      *
      * @var string[]
      */
+
     protected $fillable = [
+        'user',
         'name',
+        'puesto',
+        'f_ingreso',
+        'area',
+        'sub_area',
         'email',
         'password',
     ];
@@ -59,8 +65,16 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function punto_venta()
+    public function area_user()
     {
-        return $this->belongsTo(Sucursal::class,'sucursal');
+        return $this->belongsTo(Area::class,'area');
+    }
+    public function subarea()
+    {
+        return $this->belongsTo(SubArea::class,'sub_area');
+    }
+    public function puesto_desc()
+    {
+        return $this->belongsTo(Puesto::class,'puesto');
     }
 }

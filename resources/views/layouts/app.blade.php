@@ -29,7 +29,7 @@
             /*top: 0; /* Stay at the top */
             /*left: 0;*/
             font-size: 14px;
-            background-color:#d1d5db; /* Black*/
+            background-color:#343d49; /* Black*/
             overflow-x: hidden; /* Disable horizontal scroll */
             overflow-y: scroll;
             padding-top: 25px; /* Place content 60px from the top */
@@ -47,10 +47,10 @@
             }
 
             /* When you mouse over the navigation links, change their color */
-            .sidenav a:hover {
+            /*.sidenav a:hover {
             color: #4C98E1;
             }
-
+            */
             /* Position and style the close button (top right corner) */
             .sidenav .closebtn {
             position: absolute;
@@ -102,63 +102,110 @@
                 <div id="mySidenav" class="sidenav flex flex-col">
                     <div class="flex flex-col overflow-y-auto">
                         <div><a href="javascript:void(0)" class="closebtn text-red-400" onclick="closeNav()">&times;</a></div>
-                        <div class="px-3 text-blue-900 font-semibold flex flex-col">
-                            <div class="text-gray-900 font-bold">
+                        <div class="px-3 font-semibold flex flex-col">
+                            <div class="text-slate-200">
                                 <i class="fas fa-tasks"></i>
                                 Plantilla
                             </div>
-                            <div class="flex flex-col" id="distribuidores">
-                                
+                            <div class="flex flex-col" id="distribuidores">                                
                                 <div class="pl-5 pt-2">
-                                    <a href="{{route('plantilla_nuevo')}}">
-                                        <span class="text-sky-600"><i class="fas fa-user-tie"></i></span>
-                                        Nuevo usuario
+                                    <a href="{{route('usuarios')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-amber-300"><i class="fas fa-users"></i></span>
+                                        Administracion plantilla
                                     </a>
-                                </div>     
-                                <div class="pl-5 pt-2">
-                                    <a href="{{route('plantilla_update')}}">
-                                        <span class="text-sky-600"><i class="fas fa-users"></i></span>
-                                        Modificar usuarios
-                                    </a>
-                                </div>                                
+                                </div>
                             </div>
                         </div>
-                        <div class="px-3 text-blue-900 font-semibold flex flex-col">
-                            <div class="text-gray-900 font-bold">
+                        <div class="px-3 font-semibold flex flex-col pt-3">
+                            <div class="text-slate-200 font-bold">
                                 <i class="fas fa-tasks"></i>
                                 Ventas
                             </div>
                             <div class="flex flex-col" id="distribuidores">
                                 
                                 <div class="pl-5 pt-2">
-                                    <a href="{{route('ventas_nueva')}}">
-                                        <span class="text-sky-600"><i class="fas fa-file-signature"></i></span>
+                                    <a href="{{route('ventas_nueva')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-orange-500"><i class="fas fa-file-signature"></i></span>
                                         Registrar Venta
                                     </a>
                                 </div>     
                                 <div class="pl-5 pt-2">
-                                    <a href="{{route('dashboard')}}">
-                                        <span class="text-yellow-300"><i class="fas fa-table"></i></span>
-                                        Validar Venta
+                                    <a href="{{route('base_ventas')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-amber-300"><i class="fas fa-database"></i></span>
+                                        Base de Ventas
                                     </a>
                                 </div>                                
                             </div>
-                        </div>                                                
-                        <div class="px-3 text-[#d1d5db] flex flex-col">.
                         </div>
-                        <div class="px-3 text-[#d1d5db] flex flex-col">.
+                        <div class="px-3 font-semibold flex flex-col pt-3">
+                            <div class="text-slate-200 font-bold">
+                                <i class="fas fa-tasks"></i>
+                                Comisiones
+                            </div>
+                            <div class="flex flex-col" id="distribuidores">
+                                
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('nuevo_calculo')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-orange-500"><i class="fas fa-file-signature"></i></span>
+                                        Nuevo Calculo
+                                    </a>
+                                </div>     
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('base_ventas')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-amber-300"><i class="fas fa-database"></i></span>
+                                        Base de Ventas
+                                    </a>
+                                </div>         
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('base_ventas')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-amber-300"><i class="fas fa-database"></i></span>
+                                        Comisiones
+                                    </a>
+                                </div>                          
+                            </div>
                         </div>
-                        <div class="px-3 text-[#d1d5db] flex flex-col">.
+                        <div class="px-3 font-semibold flex flex-col pt-3">
+                            <div class="text-slate-200 font-bold">
+                                <i class="fas fa-tasks"></i>
+                                AT&T
+                            </div>
+                            <div class="flex flex-col" id="distribuidores">
+                                
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('carga_cis')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-orange-500"><i class="fas fa-file-signature"></i></span>
+                                        Carga de SIS
+                                    </a>
+                                </div>  
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('periodo_nuevo')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-amber-300"><i class="fas fa-database"></i></span>
+                                        Nuevo Periodo
+                                    </a>
+                                </div>     
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('seguimiento_att')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-amber-300"><i class="fas fa-database"></i></span>
+                                        Resultados
+                                    </a>
+                                </div>                                
+                            </div>
+                        </div>                                                                                          
+                        <div class="px-3 text-[#343d49] flex flex-col">.
                         </div>
-                        <div class="px-3 text-[#d1d5db] flex flex-col">.
+                        <div class="px-3 text-[#343d49] flex flex-col">.
                         </div>
-                        <div class="px-3 text-[#d1d5db] flex flex-col">.
+                        <div class="px-3 text-[#343d49] flex flex-col">.
                         </div>
-                        <div class="px-3 text-[#d1d5db] flex flex-col">.
+                        <div class="px-3 text-[#343d49] flex flex-col">.
                         </div>
-                        <div class="px-3 text-[#d1d5db] flex flex-col">.
+                        <div class="px-3 text-[#343d49] flex flex-col">.
                         </div>
-                        <div class="px-3 text-[#d1d5db] flex flex-col">.
+                        <div class="px-3 text-[#343d49] flex flex-col">.
+                        </div>
+                        <div class="px-3 text-[#343d49] flex flex-col">.
+                        </div>
+                        <div class="px-3 text-[#343d49] flex flex-col">.
                         </div>
                     </div> 
                 </div>
