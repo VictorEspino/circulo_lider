@@ -196,6 +196,13 @@
                       <br><span class="text-xs italic text-red-700 text-xs">{{ $message }}</span>
                     @enderror                                     
                 </div>
+                <div class="w-full md:w-1/4">
+                    <x-jet-label>Renta de deguro de proteccion</x-jet-label>
+                    <x-jet-input type="text" class="w-full" name="renta_seguro" value="{{old('renta_seguro')}}"></x-jet-input>
+                    @error('renta_seguro')
+                      <br><span class="text-xs italic text-red-700 text-xs">{{ $message }}</span>
+                    @enderror                                     
+                </div>
             </div>
             <div class="w-full flex flex-col space-x-0 space-y-2 md:flex-row md:space-x-2 md:space-y-0">
                 <div class="w-full">

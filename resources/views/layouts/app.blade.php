@@ -19,6 +19,8 @@
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
 
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <style>
             /* The side navigation menu */
             .sidenav {
@@ -151,15 +153,15 @@
                                     </a>
                                 </div>     
                                 <div class="pl-5 pt-2">
-                                    <a href="{{route('base_ventas')}}" class="text-slate-200 hover:text-slate-400">
+                                    <a href="{{route('cuotas_gerentes')}}" class="text-slate-200 hover:text-slate-400">
                                         <span class="text-amber-300"><i class="fas fa-database"></i></span>
-                                        Base de Ventas
+                                        Cuotas Tienda
                                     </a>
                                 </div>         
                                 <div class="pl-5 pt-2">
-                                    <a href="{{route('base_ventas')}}" class="text-slate-200 hover:text-slate-400">
+                                    <a href="{{route('seguimiento_calculo')}}" class="text-slate-200 hover:text-slate-400">
                                         <span class="text-amber-300"><i class="fas fa-database"></i></span>
-                                        Comisiones
+                                        Calculos de comisiones
                                     </a>
                                 </div>                          
                             </div>
@@ -182,13 +184,7 @@
                                         <span class="text-amber-300"><i class="fas fa-database"></i></span>
                                         Nuevo Periodo
                                     </a>
-                                </div>     
-                                <div class="pl-5 pt-2">
-                                    <a href="{{route('seguimiento_att')}}" class="text-slate-200 hover:text-slate-400">
-                                        <span class="text-amber-300"><i class="fas fa-database"></i></span>
-                                        Resultados
-                                    </a>
-                                </div>                                
+                                </div>                                 
                             </div>
                         </div>                                                                                          
                         <div class="px-3 text-[#343d49] flex flex-col">.
@@ -280,5 +276,16 @@ function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
 }
 </script>
+<script>
+            Livewire.on('alert_ok',function(message)
+            {
+                Swal.fire(
+                    'OK!',
+                    message,
+                    'success'
+                )
+
+            });
+        </script>
     </body>
 </html>

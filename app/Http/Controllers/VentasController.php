@@ -68,6 +68,7 @@ class VentasController extends Controller
                     'cuenta'=>$request->cuenta,
                     'addon_control'=>$request->addon_control=='SI'?1:0,
                     'seguro_proteccion'=>$request->seguro_proteccion=='SI'?1:0,
+                    'renta_seguro'=>$request->renta_seguro,
                     'observaciones'=>$request->observaciones
         ]);
 

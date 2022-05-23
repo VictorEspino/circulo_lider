@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('medicion_vendedors', function (Blueprint $table) {
+        Schema::create('gerente_tienda_cuotas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('calculo_id');
-            $table->foreignId('ejecutivo');
-            $table->integer('ventas');
-            $table->integer('rentas');
-            $table->integer('bracket_ventas')->default(0);
-            $table->integer('bracket_rentas')->default(0);
+            $table->foreignId('periodo_id');
+            $table->foreignId('area');
+            $table->foreignId('sub_area');
+            $table->foreignId('gerente_id');
+            $table->integer('cuota_ventas');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('medicion_vendedors');
+        Schema::dropIfExists('gerente_tienda_cuotas');
     }
 };

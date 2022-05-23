@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MedicionVendedor extends Model
+class ComisionAddon extends Model
 {
     use HasFactory;
-    protected $fillable=['calculo_id','ejecutivo','ventas','rentas','bracket_ventas','bracket_rentas'];
+
+    protected $fillable=['calculo_id','venta_id','tipo','comision_vendedor'];
 }

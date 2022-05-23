@@ -32,6 +32,7 @@ class Venta extends Model
                     'cuenta',
                     'addon_control',
                     'seguro_proteccion',
+                    'renta_seguro',
                     'observaciones'
                 ];
     public function det_ejecutivo()

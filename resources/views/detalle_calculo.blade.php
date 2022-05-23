@@ -8,8 +8,8 @@
         <div class="w-full rounded-t-lg bg-slate-300 p-3 flex flex-row justify-between border-b border-gray-800"> <!--ENCABEZADO-->
             <div>
                 <div class="w-full text-xl font-bold text-gray-700">Calculo de comisiones</div>
-                <div class="w-full text-lg font-semibold text-gray-700">Marzo 2022</div>            
-                <div class="w-full text-xs font-semibold text-gray-700">De 2022-03-01 a 2022-03-31</div>                        
+                <div class="w-full text-lg font-semibold text-gray-700">{{$calculo->descripcion}}</div>            
+                <div class="w-full text-xs font-semibold text-gray-700">{{$calculo->periodo->descripcion}}</div>                        
             </div>
             
             <div class="md:px-7 flex items-center">
@@ -48,7 +48,7 @@
                                 Total de Ventas Registradas  
                             </div>
                             <div class="w-1/3 border-b flex justify-center">
-                                134
+                                {{$ventas}}
                             </div>
                         </div>
                         <div class="w-full flex flex-row border-b text-sm px-3">
@@ -56,7 +56,7 @@
                                 Ventas Validadas 
                             </div>
                             <div class="w-1/3 border-b flex justify-center">
-                                132
+                                {{$ventas}}
                             </div>
                         </div>
                         <div class="w-full flex flex-row border-b text-sm px-3">
@@ -64,7 +64,7 @@
                                 Ventas NO Validadas 
                             </div>
                             <div class="w-1/3 flex justify-center">
-                                2
+                                {{0}}
                             </div>
                         </div>
                     </div>  
@@ -163,7 +163,7 @@
                         </form>
                     </div>
                     @endif
-                    @if($adelanto=="1" && $terminado=="0")
+                    
                     <div class="w-full">
                         <form class="w-full" method="post" action="{{route('calculo_ejecutar')}}" id="forma_cierre">
                             @csrf
@@ -180,7 +180,7 @@
                             @endif
                         </form>
                     </div>
-                    @endif
+                    
                     @if($cierre=="1" && $terminado=="0")
                     <div class="w-full">
                         <form class="w-full" method="post" action="{{route('calculo_terminar')}}" id="forma_finaliza">
@@ -211,9 +211,16 @@
                 <div class="w-full flex justify-center text-center flex-col border rounded-b-lg shadow-lg p-3 space-y-4">  
                     <div class="w-full">
                         <span class="w-full flex text-center text-ttds-naranja text-2xl font-semibold p-10">
-                            Adelanto ejecutado : OK<br>
-                            Cierre ejecutado : OK<br>
-                            Calculo terminado: OK<br>
+                        <div class="w-full">
+                        <form class="w-full" method="post" action="{{route('calculo_ejecutar')}}" id="forma_cierre">
+                            @csrf
+                            <input type="hidden" name="id" value="{{$calculo->id}}">
+                            
+                            <button type="button" onClick="ejecuta_calculo(2)" class="bg-[#186D92] text-gray-200 text-4xl font-semibold rounded-lg hover:bg-ttds-hover shadow-lg w-full border p-10">
+                                Ejecutar Calculo
+                            </button>
+                        </form>
+                    </div>
                         </span>   
                     </div>
                 </div>
@@ -238,7 +245,7 @@
                                 Total de Ventas Procesadas 
                             </div>
                             <div class="w-1/4 flex justify-center">
-                                {{132}}
+                                {{$ventas}}
                             </div>
                         </div>
                         <div class="w-full flex flex-row border-b text-sm">
@@ -246,7 +253,7 @@
                                 Ventas Pagadas
                             </div>
                             <div class="w-1/4 flex justify-center">
-                                <a href="/transacciones_resumen_calculo/1/PAGO/1">{{130}}</a>
+                                <a href="/transacciones_resumen_calculo/1/PAGO/1">{{$ventas}}</a>
                             </div>
                         </div>
                         <div class="w-full flex flex-row border-b text-sm">
@@ -254,7 +261,7 @@
                                 Ventas NO Pagadas 
                             </div>
                             <div class="w-1/4 flex justify-center">
-                                <a href="/transacciones_resumen_calculo/1/NO PAGO/1">{{2}}</a>
+                                <a href="/transacciones_resumen_calculo/1/NO PAGO/1">{{0}}</a>
                             </div>
                         </div>
                     </div>  
@@ -284,7 +291,7 @@
                             <div class="md:hidden w-full p-1"><span class="text-lg font-semibold text-gray-700">Pagos</span></div>
                             <div class="w-full flex justify-center flex-row">
                                 <div class="w-full flex justify-center">
-                                    <a href="">
+                                    <a href="{{route('export_pagos_vendedor',['id'=>$calculo->id])}}">
                                         <i class="text-green-700 text-6xl fas fa-balance-scale"></i>
                                     </a>
                                 </div>
@@ -292,7 +299,7 @@
 
                             <div class="w-full flex justify-center flex-row">
                                 <div class="w-1/2 flex justify-center text-center">
-                                    <span class="text-xs md:text-sm text-gray-700">Pagos para {{2}} internos</span>
+                                    <span class="text-xs md:text-sm text-gray-700">Pagos para {{$pagos}} vendedores</span>
                                 </div>
                             </div>
                         </div>
@@ -314,23 +321,23 @@
                         <div class="w-full md:w-1/2 flex flex-col justify-center items-center">
                             <div class="w-full flex justify-center flex-row">
                                 <div class="w-full flex justify-center text-center">
-                                    <a href="">
+                                    <a href="{{route('export_comisiones_vendedor',['id'=>$calculo->id])}}">
                                         <span class="text-gray-500 text-6xl font-bold fas fa-file-invoice-dollar"></span>
                                     </a>
                                 </div>
                             </div>
                             <div class="w-full flex justify-center flex-row">
                                 <div class="w-1/2 flex justify-center text-center">
-                                    <span class="text-xs md:text-sm text-gray-700">Pagos para {{2}} colaboradores</span>
+                                    <span class="text-xs md:text-sm text-gray-700">Comisiones para {{$pagos}} colaboradores</span>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="hidden md:block md:w-1/2 flex flex-col">
-                            <div><span class="hidden md:block text-2xl font-semibold text-gray-700">Formato de Pagos</span></div>
+                            <div><span class="hidden md:block text-2xl font-semibold text-gray-700">Comisiones Detalladas</span></div>
                             <div class="hidden md:block">
                                 <span class="text-xs md:text-sm text-gray-700">
-                                    -Obtenga el formato de pagos por comisones generadas de cada colaborador
+                                    -Obtenga el detalle de cada linea comisionada por colaborador
                                 </span>
                             </div>
                         </div>
@@ -345,7 +352,7 @@
                                 </a>
                             </div>
                             <div>
-                                <span class="text-xs md:text-sm text-gray-700">Aplicados : {{0}}, NO Aplicados : {{135}}</span>
+                                <span class="text-xs md:text-sm text-gray-700">Aplicados : {{0}}, NO Aplicados : {{0}}}</span>
                             </div>
                         </div>
                         <div class="hidden md:block md:w-1/2 flex flex-col">
@@ -388,7 +395,7 @@
                         <div class="w-full md:w-1/2 flex flex-col justify-center items-center">
                             <div class="w-full flex justify-center">
                                 <a href="">
-                                    <span class="text-yellow-400 text-6xl font-bold">{{45}}</span>
+                                    <span class="text-yellow-400 text-6xl font-bold">{{0}}</span>
                                 </a>
                             </div>
                             <div>
@@ -815,7 +822,7 @@
                 document.getElementById('forma_adelanto').submit();
                 }
             if(tipo==2){
-                document.getElementById('mensaje').innerHTML = "Ejecutando Cierre";
+                document.getElementById('mensaje').innerHTML = "Ejecutando Calculo";
                 document.getElementById('forma_cierre').submit();
                 }
                 

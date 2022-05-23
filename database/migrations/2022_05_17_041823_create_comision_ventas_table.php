@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('medicion_vendedors', function (Blueprint $table) {
+        Schema::create('comision_ventas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('venta_id');
             $table->foreignId('calculo_id');
-            $table->foreignId('ejecutivo');
-            $table->integer('ventas');
-            $table->integer('rentas');
-            $table->integer('bracket_ventas')->default(0);
-            $table->integer('bracket_rentas')->default(0);
+            $table->integer('escenario')->default(1);
+            $table->boolean('cuenta');
+            $table->boolean('paga');
+            $table->float('comision_vendedor')->default(0);
+            $table->float('comision_gerente')->default(0);
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('medicion_vendedors');
+        Schema::dropIfExists('comision_ventas');
     }
 };
