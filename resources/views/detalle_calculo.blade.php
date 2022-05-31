@@ -342,6 +342,32 @@
                             </div>
                         </div>
                     </div>
+                    <div class="w-full flex flex-row pt-3 pt-8">
+                        <div class="w-full md:w-1/2 flex flex-col justify-center items-center">
+                            <div class="w-full flex justify-center flex-row">
+                                <div class="w-full flex justify-center text-center">
+                                    <a href="{{route('comision_vendedores',['id'=>$calculo->id])}}">
+                                        <span class="text-gray-500 text-6xl font-bold fas fa-file-invoice-dollar"></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="w-full flex justify-center flex-row">
+                                <div class="w-1/2 flex justify-center text-center">
+                                    <span class="text-xs md:text-sm text-gray-700">Comisiones para {{$pagos}} colaboradores</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="hidden md:block md:w-1/2 flex flex-col">
+                            <div><span class="hidden md:block text-2xl font-semibold text-gray-700">Estados de cuenta</span></div>
+                            <div class="hidden md:block">
+                                <span class="text-xs md:text-sm text-gray-700">
+                                    -Revise el estado de cuenta de cada vendedor
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
                     <div class="md:hidden w-full pt-2"><span class="text-lg font-semibold text-gray-700">Charge-Back</span></div>
                     <div class="w-full flex flex-row pt-3 md:pt-8">
                         
@@ -470,6 +496,7 @@
                             </div>
                         </div>
                     </div>
+-->
                 </div> 
             </div>
         </div>
@@ -716,7 +743,6 @@
         google.charts.load('current', {'packages':['gauge']});
         google.charts.setOnLoadCallback(drawChart);
         google.charts.setOnLoadCallback(drawChart2);
-        google.charts.setOnLoadCallback(drawChart3);
 
         function drawChart() {
 

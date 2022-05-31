@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VentasController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\CalculoComisiones;
+use App\Http\Controllers\EstadosCuenta;
 use App\Http\Livewire\Usuario\Show;
 use App\Http\Livewire\Cuotas\Gerentes;
 
@@ -43,8 +44,10 @@ Route::get('/base_ventas',[VentasController::class,'base_ventas'])->middleware('
 
 //RUTAS ARCHIVOS AT&T
 
-Route::get('/carga_cis',function () {return view('carga_cis');})->middleware('auth')->name('carga_cis');
-Route::post('/carga_cis',[ImportController::class,'carga_cis'])->middleware('auth')->name('carga_cis');
+Route::get('/carga_cis_pospago',function () {return view('carga_cis_pospago');})->middleware('auth')->name('carga_cis_pospago');
+Route::post('/carga_cis_pospago',[ImportController::class,'carga_cis_pospago'])->middleware('auth')->name('carga_cis_pospago');
+Route::get('/carga_cis_renovacion',function () {return view('carga_cis_renovacion');})->middleware('auth')->name('carga_cis_renovacion');
+Route::post('/carga_cis_renovacion',[ImportController::class,'carga_cis_renovacion'])->middleware('auth')->name('carga_cis_renovacion');
 
 Route::get('/detalle_calculo/{id}',[CalculoComisiones::class,'detalle_calculo'])->middleware('auth')->name('detalle_calculo');
 Route::get('/seguimiento_att',function () {return view('seguimiento_att');})->middleware('auth')->name('seguimiento_att');
@@ -60,6 +63,8 @@ Route::post('/calculo_ejecutar',[CalculoComisiones::class,'calculo_comisiones'])
 Route::get('/seguimiento_calculo',[CalculoComisiones::class,'seguimiento_calculo'])->middleware('auth')->name('seguimiento_calculo');
 Route::get('/export_pagos_vendedor/{id}',[CalculoComisiones::class,'export_pagos_vendedor'])->middleware('auth')->name('export_pagos_vendedor');
 Route::get('/export_comisiones_vendedor/{id}',[CalculoComisiones::class,'export_comisiones_vendedor'])->middleware('auth')->name('export_comisiones_vendedor');
+Route::get('/comision_vendedores/{id}',[EstadosCuenta::class,'vendedores'])->middleware('auth')->name('comision_vendedores');
+Route::get('/estado_cuenta_vendedor/{id}/{user_id}',[EstadosCuenta::class,'estado_cuenta_vendedor'])->middleware('auth')->name('estado_cuenta_vendedor');
 
 //
 

@@ -96,7 +96,7 @@ class NuevoUsuario extends Component
             'area'=> $this->area,
             'sub_area'=> $this->sub_area,
             'email'=>$this->email,
-            'password'=>'$2y$10$3WETO/uYpSjxNmqa8w2IZexzOlTXpKGWv6MxD9RCyFPUEHalkloGi',
+            'password'=>'$2y$10$fg1vEsi47fVkbDs.umaTWeILU78c8kGt26ldWExKpT1HjdxA9ef2S',
         ]);
 
 

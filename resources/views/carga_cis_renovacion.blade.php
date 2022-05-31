@@ -1,15 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
-            {{ __('Importar CIS') }}
+            {{ __('Importar CIS RENOVACION') }}
     </x-slot>
 
     <div class="p-10 flex flex-col w-full text-gray-700  px-2 md:px-8">
         <div class="w-full rounded-t-lg bg-slate-300 p-3 flex flex-col border-b border-gray-800"> <!--ENCABEZADO-->
-            <div class="w-full text-lg font-semibold">Importar archivo CIS</div>
+            <div class="w-full text-lg font-semibold">Importar archivo CIS RENOVACION</div>
             <div class="w-full text-sm">({{Auth::user()->user}}) - {{Auth::user()->name}}</div>            
             <div class="w-full text-sm">{{App\Models\User::with('area_user','subarea')->find(Auth::user()->id)->subarea->nombre}}</div>            
         </div> <!--FIN ENCABEZADO-->
-        <form method="post" action="{{route('carga_cis')}}" enctype="multipart/form-data">
+        <form method="post" action="{{route('carga_cis_renovacion')}}" enctype="multipart/form-data">
             @csrf
         <div class="w-full p-3 flex flex-col"> <!--CONTENIDO-->
             <div class="w-full flex flex-row space-x-2">

@@ -9,7 +9,7 @@ class PagosVendedor extends Model
 {
     use HasFactory;
 
-    protected $fillable=['calculo_id','user_id','comisiones','bono_rentas','total_pago'];
+    protected $fillable=['calculo_id','user_id','comisiones','bono_rentas','total_pago','nombre','sucursal'];
 
     public function ejecutivo()
     {

@@ -9,4 +9,9 @@ class ComisionVentas extends Model
 {
     use HasFactory;
     protected $fillable=['venta_id','calculo_id','escenario','cuenta','paga'];
+
+    public function venta()
+    {
+        return $this->belongsTo(Venta::class,'venta_id');
+    }
 }

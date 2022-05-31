@@ -24,14 +24,24 @@
                             <option value="" class=""></option>
                             <option value="ACTIVACION" class="" {{$tipo=='ACTIVACION'?'selected':''}}>ACTIVACION</option>
                             <option value="RENOVACION" class="" {{$tipo=='RENOVACION'?'selected':''}}>RENOVACION</option>
+                            <option value="PREPAGO" class="" {{$tipo=='PREPAGO'?'selected':''}}>PREPAGO</option>
+                            <option value="ACCESORIO" class="" {{$tipo=='ACCESORIO'?'selected':''}}>ACCESORIO</option>
                         </select>  
                     </div>
                     <div class="w-1/6">
-                        <x-jet-label class="text-white text-sm">Validado</x-jet-label>
-                        <select class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm py-1" name="validado">
+                        <x-jet-label class="text-white text-sm">Validado CIS</x-jet-label>
+                        <select class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm py-1" name="validado_cis">
                             <option value="" class=""></option>
-                            <option value="SI" class="" {{$validado=='SI'?'selected':''}}>SI</option>
-                            <option value="NO" class="" {{$validado=='NO'?'selected':''}}>NO</option>
+                            <option value="SI" class="" {{$validado_cis=='SI'?'selected':''}}>SI</option>
+                            <option value="NO" class="" {{$validado_cis=='NO'?'selected':''}}>NO</option>
+                        </select>  
+                    </div>
+                    <div class="w-1/6">
+                        <x-jet-label class="text-white text-sm">Doc Completa</x-jet-label>
+                        <select class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm py-1" name="doc_completa">
+                            <option value="" class=""></option>
+                            <option value="SI" class="" {{$doc_completa=='SI'?'selected':''}}>SI</option>
+                            <option value="NO" class="" {{$doc_completa=='NO'?'selected':''}}>NO</option>
                         </select>  
                     </div>
                     <div class="w-1/6">

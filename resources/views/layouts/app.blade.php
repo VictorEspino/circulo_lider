@@ -104,6 +104,7 @@
                 <div id="mySidenav" class="sidenav flex flex-col">
                     <div class="flex flex-col overflow-y-auto">
                         <div><a href="javascript:void(0)" class="closebtn text-red-400" onclick="closeNav()">&times;</a></div>
+                        @if (Auth::user()->perfil==1)
                         <div class="px-3 font-semibold flex flex-col">
                             <div class="text-slate-200">
                                 <i class="fas fa-tasks"></i>
@@ -118,6 +119,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                         <div class="px-3 font-semibold flex flex-col pt-3">
                             <div class="text-slate-200 font-bold">
                                 <i class="fas fa-tasks"></i>
@@ -130,15 +132,29 @@
                                         <span class="text-orange-500"><i class="fas fa-file-signature"></i></span>
                                         Registrar Venta
                                     </a>
-                                </div>     
+                                </div>   
+                                
                                 <div class="pl-5 pt-2">
                                     <a href="{{route('base_ventas')}}" class="text-slate-200 hover:text-slate-400">
                                         <span class="text-amber-300"><i class="fas fa-database"></i></span>
                                         Base de Ventas
                                     </a>
-                                </div>                                
+                                </div>
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('carga_cis_pospago')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-amber-300"><i class="fas fa-upload"></i></span>
+                                        Carga CIS Pospago
+                                    </a>
+                                </div>
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('carga_cis_renovacion')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-amber-300"><i class="fas fa-upload"></i></span>
+                                        Carga CIS Renovacion
+                                    </a>
+                                </div>  
                             </div>
                         </div>
+                        @if (Auth::user()->perfil==1)
                         <div class="px-3 font-semibold flex flex-col pt-3">
                             <div class="text-slate-200 font-bold">
                                 <i class="fas fa-tasks"></i>
@@ -166,6 +182,8 @@
                                 </div>                          
                             </div>
                         </div>
+                        @endif
+                        @if(Auth::user()->perfil==2)
                         <div class="px-3 font-semibold flex flex-col pt-3">
                             <div class="text-slate-200 font-bold">
                                 <i class="fas fa-tasks"></i>
@@ -186,7 +204,8 @@
                                     </a>
                                 </div>                                 
                             </div>
-                        </div>                                                                                          
+                        </div>   
+                        @endif                                                                                       
                         <div class="px-3 text-[#343d49] flex flex-col">.
                         </div>
                         <div class="px-3 text-[#343d49] flex flex-col">.

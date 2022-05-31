@@ -61,9 +61,33 @@ class CalculoComisiones extends Controller
     public function acreditar_ventas($calculo)
     {
         ComisionVentas::where('calculo_id',$calculo->id)->delete();
+        /*
         $ventas_periodo=Venta::where('fecha','>=',$calculo->periodo->f_inicio)
                        ->where('fecha','<=',$calculo->periodo->f_fin)
                        ->get();
+        */
+        $sql_ventas_periodo="
+                SELECT ventas.*,cis_pospagos.status_orden,cis_pospagos.fecha_status_orden
+                FROM ventas
+                LEFT JOIN cis_pospagos
+                ON ventas.cis_row_id = cis_pospagos.id
+                WHERE
+                cis_pospagos.status_orden='CERRADO' and cis_pospagos.fecha_status_orden>='".$calculo->periodo->f_inicio."' and cis_pospagos.fecha_status_orden<='".$calculo->periodo->f_fin."'
+                and ventas.tipo='ACTIVACION'
+                UNION
+                SELECT ventas.*,cis_renovacions.status_renovacion as status_orden,cis_renovacions.fecha_activacion_contrato as fecha_status_orden
+                FROM ventas
+                LEFT JOIN cis_renovacions
+                ON ventas.cis_row_id = cis_renovacions.id
+                WHERE
+                cis_renovacions.status_renovacion='ACTIVO' and cis_renovacions.fecha_activacion_contrato>='".$calculo->periodo->f_inicio."' and cis_renovacions.fecha_activacion_contrato<='".$calculo->periodo->f_fin."'
+                and ventas.tipo='RENOVACION'
+                UNION
+                select ventas.*,'OK' as status_orden,ventas.fecha as fecha_status_orden from ventas WHERE
+                fecha>='".$calculo->periodo->f_inicio."' and fecha<='".$calculo->periodo->f_fin."' and tipo in ('PREPAGO','ACCESORIO')
+                        ";
+        $ventas_periodo=DB::select(DB::raw($sql_ventas_periodo));
+        $ventas_periodo=collect($ventas_periodo);
         foreach($ventas_periodo as $venta)
         {
             $cuenta=1; //se deben validar condiciones para saber si cuenta
@@ -131,7 +155,7 @@ class CalculoComisiones extends Controller
     }
     private function comisiones($calculo)
     {
-        return($this->comisiones_vendedor($calculo));
+        $this->comisiones_vendedor($calculo);
         $this->comisiones_gerente($calculo);
     }
     private function comisiones_vendedor($calculo)
@@ -204,13 +228,13 @@ class CalculoComisiones extends Controller
                         $comision=0;
                     }
                 }
-                if($credito->tipo=='ACCESORIO')
+                if($credito->tipo=='ACCESORIO' && $ventas_armalo>=3)
                 {
                     $comision=10;
                     if($credito->renta>200)
                      {$comision=20;}
                 }
-                if($credito->tipo=='PREPAGO')
+                if($credito->tipo=='PREPAGO' && $ventas_armalo>=3)
                 {
                     $comision=15;
                 }
@@ -303,9 +327,12 @@ class CalculoComisiones extends Controller
             {
                 $bono_rentas=1500;
             }
+            $vendedor_detalles=User::with('subarea')->find($pago_ejec->ejecutivo);
             PagosVendedor::create([
                             'calculo_id'=>$calculo->id,
                             'user_id'=>$pago_ejec->ejecutivo,
+                            'nombre'=>$vendedor_detalles->name,
+                            'sucursal'=>$vendedor_detalles->subarea->nombre,
                             'comisiones'=>$pago_ejec->comision,
                             'bono_rentas'=>$bono_rentas,
                             'total_pago'=>$pago_ejec->comision+$bono_rentas

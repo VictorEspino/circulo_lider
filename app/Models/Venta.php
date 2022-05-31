@@ -45,6 +45,14 @@ class Venta extends Model
     }
     public function det_sucursal()
     {
-        return $this->belongsTo(Subarea::class,'sub_area');
+        return $this->belongsTo(SubArea::class,'sub_area');
+    }
+    public function cis_renovacion()
+    {
+        return $this->belongsTo(CisRenovacion::class,'cis_row_id');
+    }
+    public function cis_pospago()
+    {
+        return $this->belongsTo(CisPospago::class,'cis_row_id');
     }
 }

@@ -24,7 +24,7 @@ class VentasController extends Controller
             'mail_cliente'=>'required|email',
             'rfc'=>'exclude_if:tipo,ACCESORIO|exclude_if:tipo,PREPAGO|required',
             'plan'=>'required',
-            'plazo'=>'exclude_if:tipo,PREPAGO|exclude_if:tipo,ACCESORIO|required|numeric',
+            'plazo'=>'numeric|exclude_if:tipo,PREPAGO|exclude_if:tipo,ACCESORIO|required',
             'renta' => 'exclude_if:tipo,PREPAGO|exclude_if:tipo,ACCESORIO|required|numeric|min:50',
             'propiedad'=>'exclude_if:tipo,ACCESORIO|required',
             'equipo'=>'required',
@@ -35,7 +35,8 @@ class VentasController extends Controller
             'seguro_proteccion'=>'exclude_if:tipo,PREPAGO|exclude_if:tipo,ACCESORIO|required',
             'dn'=>'exclude_if:tipo,ACCESORIO|required|digits:10',
             'iccid'=>'exclude_unless:tipo,PREPAGO|required',
-            'imei'=>'exclude_unless:propiedad,NUEVO|required'
+            'imei'=>'exclude_unless:propiedad,NUEVO|required',
+            'renta_seguro'=>'exclude_unless:seguro_proteccion,SI|required|numeric|min:1',
         ],
         [
             'required' => 'Campo requerido.',
@@ -68,17 +69,17 @@ class VentasController extends Controller
                     'cuenta'=>$request->cuenta,
                     'addon_control'=>$request->addon_control=='SI'?1:0,
                     'seguro_proteccion'=>$request->seguro_proteccion=='SI'?1:0,
-                    'renta_seguro'=>$request->renta_seguro,
+                    'renta_seguro'=>$request->seguro_proteccion=='SI'?$request->renta_seguro==''?0:$request->renta_seguro:0,
                     'observaciones'=>$request->observaciones
         ]);
-
         return(back()->withStatus('OK - Registro de venta '.$request->cliente.' creado con exito'));
     }
     public function base_ventas(Request $request)
     {
         $filtro_text='';
         $tipo='';
-        $validado='';
+        $validado_cis='';
+        $doc_completa='';
         $f_inicio='';
         $f_fin='';
         $filtro=false;
@@ -87,12 +88,22 @@ class VentasController extends Controller
             $filtro=true;
             $filtro_text=$_GET["query"];
             $tipo=$_GET["tipo"];
-            $validado=$_GET["validado"];
+            $validado_cis=$_GET["validado_cis"];
+            $doc_completa=$_GET["doc_completa"];
             $f_inicio=$_GET["f_inicio"];
             $f_fin=$_GET["f_fin"];
         }
         $registros=Venta::with('det_ejecutivo','det_sucursal','det_plan')
                         ->orderBy('fecha','desc')
+                        
+                        ->when (Auth::user()->puesto==1,function ($query)
+                        {
+                            $query->where('ejecutivo',Auth::user()->id);
+                        })
+                        ->when (Auth::user()->puesto==2,function ($query)
+                        {
+                            $query->where('sub_area',Auth::user()->sub_area);
+                        })
                         ->when($filtro && $filtro_text!='',function ($query) use ($filtro_text)
                             {
                                 $query->where(function ($anidado) use ($filtro_text){
@@ -105,10 +116,15 @@ class VentasController extends Controller
                             {
                                 $query->where('tipo',$tipo);
                             })
-                        ->when($filtro && $validado!='',function ($query) use ($validado)
+                        ->when($filtro && $validado_cis!='',function ($query) use ($validado_cis)
                             {
-                                $query->where('validado',$validado=='SI'?1:0);
-                                $query->where('doc_completa',$validado=='SI'?1:0);
+                                $query->where('cis_id',$validado_cis=='SI'?'>':'<=',0);
+                                $query->whereRaw("tipo in ('ACTIVACION','RENOVACION')");
+                            })
+                        ->when($filtro && $doc_completa!='',function ($query) use ($doc_completa)
+                            {
+                                $query->where('doc_completa',$doc_completa=='SI'?1:0);
+                                $query->whereRaw("tipo in ('ACTIVACION','RENOVACION')");
                             })
                         ->when($filtro && $f_inicio!='',function ($query) use ($f_inicio)
                             {
@@ -118,6 +134,7 @@ class VentasController extends Controller
                             {
                                 $query->where('fecha','<=',$f_fin);
                             })
+                        //->dd();
                         ->paginate(10);
         if($filtro)
         {
@@ -125,12 +142,13 @@ class VentasController extends Controller
                     'filtro'=>'ACTIVE',
                     'query' => $filtro_text,
                     'tipo'=>$tipo,
-                    'validado'=>$validado,
+                    'validado_cis'=>$validado_cis,
+                    'doc_completa'=>$doc_completa,
                     'f_fin'=>$f_fin,
                     'f_inicio'=>$f_inicio,
                     ]);   
         }            
 
-        return(view('ventas.base_ventas',['registros'=>$registros,'query'=>$filtro_text,'validado'=>$validado,'tipo'=>$tipo,'f_inicio'=>$f_inicio,'f_fin'=>$f_fin]));
+        return(view('ventas.base_ventas',['registros'=>$registros,'query'=>$filtro_text,'validado_cis'=>$validado_cis,'doc_completa'=>$doc_completa,'tipo'=>$tipo,'f_inicio'=>$f_inicio,'f_fin'=>$f_fin]));
     }
 }

@@ -176,9 +176,8 @@
                 <div class="w-full md:w-1/4">
                     <x-jet-label>Addon control</x-jet-label>
                     <select class="w-full border-gray-300 focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50 rounded-md shadow-sm py-1" name="addon_control">
-                        <option value="" class=""></option>
-                        <option value="SI" class="" {{old('addon_control')=='SI'?'selected':''}}>SI</option>
                         <option value="NO" class="" {{old('addon_control')=='NO'?'selected':''}}>NO</option>
+                        <option value="SI" class="" {{old('addon_control')=='SI'?'selected':''}}>SI</option>
                     </select>    
                     @error('addon_control')
                       <br><span class="text-xs italic text-red-700 text-xs">{{ $message }}</span>
@@ -188,16 +187,15 @@
                 <div class="w-full md:w-1/4">
                 <x-jet-label>Seguro de Proteccion</x-jet-label>
                     <select class="w-full border-gray-300 focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50 rounded-md shadow-sm py-1" name="seguro_proteccion">
-                        <option value="" class=""></option>
-                        <option value="SI" class="" {{old('seguro_proteccion')=='SI'?'selected':''}}>SI</option>
                         <option value="NO" class="" {{old('seguro_proteccion')=='NO'?'selected':''}}>NO</option>
+                        <option value="SI" class="" {{old('seguro_proteccion')=='SI'?'selected':''}}>SI</option>                        
                     </select>    
                     @error('seguro_proteccion')
                       <br><span class="text-xs italic text-red-700 text-xs">{{ $message }}</span>
                     @enderror                                     
                 </div>
                 <div class="w-full md:w-1/4">
-                    <x-jet-label>Renta de deguro de proteccion</x-jet-label>
+                    <x-jet-label>Renta de seguro de proteccion</x-jet-label>
                     <x-jet-input type="text" class="w-full" name="renta_seguro" value="{{old('renta_seguro')}}"></x-jet-input>
                     @error('renta_seguro')
                       <br><span class="text-xs italic text-red-700 text-xs">{{ $message }}</span>
