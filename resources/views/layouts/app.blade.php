@@ -140,6 +140,7 @@
                                         Base de Ventas
                                     </a>
                                 </div>
+                                @if (Auth::user()->perfil==1)
                                 <div class="pl-5 pt-2">
                                     <a href="{{route('carga_cis_pospago')}}" class="text-slate-200 hover:text-slate-400">
                                         <span class="text-amber-300"><i class="fas fa-upload"></i></span>
@@ -151,7 +152,8 @@
                                         <span class="text-amber-300"><i class="fas fa-upload"></i></span>
                                         Carga CIS Renovacion
                                     </a>
-                                </div>  
+                                </div> 
+                                @endif
                             </div>
                         </div>
                         @if (Auth::user()->perfil==1)
@@ -182,29 +184,6 @@
                                 </div>                          
                             </div>
                         </div>
-                        @endif
-                        @if(Auth::user()->perfil==2)
-                        <div class="px-3 font-semibold flex flex-col pt-3">
-                            <div class="text-slate-200 font-bold">
-                                <i class="fas fa-tasks"></i>
-                                AT&T
-                            </div>
-                            <div class="flex flex-col" id="distribuidores">
-                                
-                                <div class="pl-5 pt-2">
-                                    <a href="{{route('carga_cis')}}" class="text-slate-200 hover:text-slate-400">
-                                        <span class="text-orange-500"><i class="fas fa-file-signature"></i></span>
-                                        Carga de SIS
-                                    </a>
-                                </div>  
-                                <div class="pl-5 pt-2">
-                                    <a href="{{route('periodo_nuevo')}}" class="text-slate-200 hover:text-slate-400">
-                                        <span class="text-amber-300"><i class="fas fa-database"></i></span>
-                                        Nuevo Periodo
-                                    </a>
-                                </div>                                 
-                            </div>
-                        </div>   
                         @endif                                                                                       
                         <div class="px-3 text-[#343d49] flex flex-col">.
                         </div>

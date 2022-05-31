@@ -65,6 +65,8 @@ Route::get('/export_pagos_vendedor/{id}',[CalculoComisiones::class,'export_pagos
 Route::get('/export_comisiones_vendedor/{id}',[CalculoComisiones::class,'export_comisiones_vendedor'])->middleware('auth')->name('export_comisiones_vendedor');
 Route::get('/comision_vendedores/{id}',[EstadosCuenta::class,'vendedores'])->middleware('auth')->name('comision_vendedores');
 Route::get('/estado_cuenta_vendedor/{id}/{user_id}',[EstadosCuenta::class,'estado_cuenta_vendedor'])->middleware('auth')->name('estado_cuenta_vendedor');
+Route::get('/comision_gerentes/{id}',[EstadosCuenta::class,'gerentes'])->middleware('auth')->name('comision_gerentes');
+Route::get('/estado_cuenta_gerente/{id}/{user_id}',[EstadosCuenta::class,'estado_cuenta_gerente'])->middleware('auth')->name('estado_cuenta_gerente');
 
 //
 

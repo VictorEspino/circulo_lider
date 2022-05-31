@@ -74,75 +74,7 @@
                 </div>
             </div>
             <div class="w-full p-3 md:w-1/2 md:p-5 flex flex-col">
-                <div class="w-full bg-gray-200 p-2 rounded-t-lg">Callidus</div>
-                <div class="w-full border-r border-l p-2 flex flex-row">
-                    <div class="w-1/2">
-                        <div class="w-full flex justify-center text-4xl font-semibold text-ttds">{{number_format(2241,0)}}</div>
-                        <div class="w-full flex justify-center text-sm">Registros Venta</div>
-                    </div>
-                    <div class="w-1/2">
-                        <div class="w-full flex justify-center text-4xl font-semibold text-ttds">{{number_format(13296,0)}}</div>
-                        <div class="w-full flex justify-center text-sm">Registros Residual</div>
-                    </div>
-                </div>
-                @if(Auth::user()->perfil=="admin")
-                <div class="w-full border-r border-l ">
-                    @if($adelanto=="0" || $cierre=="0")
-                    <form method="post" action="{{route('callidus_import')}}" enctype="multipart/form-data" id="carga_ventas_callidus">
-                        @csrf
-                    <div class="w-full rounded-b-lg p-3 flex flex-col"> <!--CONTENIDO-->
-                        <div class="w-full flex flex-row space-x-2">
-                            <div class="w-4/5">
-                                
-                                <span class="text-xs text-ttds">Archivo Ventas</span><br>
-                                <input type="hidden" name="id_calculo" value="{{$id_calculo}}" id="id_calculo">
-                                <input class="w-full rounded p-1 border border-gray-300 bg-white" type="file" name="file_v" value="{{old('file_v')}}" id="file_v">
-                                @error('file_v')
-                                <br><span class="text-xs italic text-red-700 text-xs">{{ $message }}</span>
-                                @enderror                    
-                            </div>
-                            <div class="w-1/5 flex items-end">
-                                <button onClick="carga_ventas_callidus()" type="button" class="rounded px-3 py-2 border text-gray-100 font-semibold bg-[#186D92] hover:bg-ttds-hover">Cargar</button>
-                            </div>                
-                        </div>
-                    </div> <!--FIN CONTENIDO-->
-                    
-                    </form>
-                    @endif
-                </div>
-                <div class="w-full border-b border-r border-l rounded-b shadow-lg">
-                    @if($adelanto=="0" || $cierre=="0")
-                    <form method="post" action="{{route('callidus_residual_import')}}" enctype="multipart/form-data" id="carga_residual_callidus">
-                        @csrf
-                    <div class="w-full rounded-b-lg p-3 flex flex-col"> <!--CONTENIDO-->
-                        <div class="w-full flex flex-row space-x-2">
-                            <div class="w-4/5">
-                                <span class="text-xs text-ttds">Archivo Residual</span><br>
-                                <input type="hidden" name="id_calculo" value="{{$id_calculo}}" id="id_calculo">
-                                <input class="w-full rounded p-1 border border-gray-300 bg-white" type="file" name="file_r" value="{{old('file_r')}}" id="file_r">
-                                @error('file_r')
-                                <br><span class="text-xs italic text-red-700 text-xs">{{ $message }}</span>
-                                @enderror                    
-                            </div>
-                            <div class="w-1/5 flex items-end">
-                                <button onClick="carga_residual_callidus()" type="button" class="rounded px-3 py-2 border bg-[#186D92] hover:bg-ttds-hover text-gray-100 font-semibold">Cargar</button>
-                            </div>                
-                        </div>
-                    </div> <!--FIN CONTENIDO-->
-                    
-                    </form>
-                    @endif
-                </div>                    
-                @else
-                <div class="w-full border-b border-r border-l rounded-b shadow-lg">
-                </div>
-
-                @endif
-            </div>
-        </div>
-        <div class="flex flex-col md:space-x-5 md:space-y-0 items-start md:flex-row">
-            <div class="w-full md:w-1/2 flex flex-col justify-center md:p-5 p-3">
-                <div class="w-full bg-gray-200 flex flex-col p-2 rounded-t-lg">{{Auth::user()->perfil=='admin'?'Calculo de Comisiones':'Revision de Calculo'}}</div>
+            <div class="w-full bg-gray-200 flex flex-col p-2 rounded-t-lg">{{Auth::user()->perfil=='admin'?'Calculo de Comisiones':'Revision de Calculo'}}</div>
                 @if(Auth::user()->perfil=="admin")
                 <div class="w-full flex flex-col border rounded-b-lg shadow-lg p-3 space-y-4">  
                     @if($cierre=="0")
@@ -216,7 +148,7 @@
                             @csrf
                             <input type="hidden" name="id" value="{{$calculo->id}}">
                             
-                            <button type="button" onClick="ejecuta_calculo(2)" class="bg-[#186D92] text-gray-200 text-4xl font-semibold rounded-lg hover:bg-ttds-hover shadow-lg w-full border p-10">
+                            <button type="button" onClick="ejecuta_calculo(2)" class="bg-slate-700 text-orange-500 text-4xl font-semibold rounded-lg hover:bg-ttds-hover shadow-lg w-full border p-10">
                                 Ejecutar Calculo
                             </button>
                         </form>
@@ -226,62 +158,8 @@
                 </div>
                 @endif
             </div>
-            <div class="w-full md:w-1/2 flex flex-col justify-center md:p-5 p-3">
-                <div class="w-full bg-gray-200 flex flex-col p-2 rounded-t-lg">Resumen de Pago</div>
-                <div class="w-full flex flex-col border rounded-b-lg shadow-lg">  
-                    <div class="w-full px-3 pt-2">
-                        <div class="w-full flex flex-row text-xs font-semibold">
-                            <div class="w-1/2">
-                                 
-                            </div>
-                            <div class="w-1/4 flex justify-center">
-                                Comisiones
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-full px-3 pt-2 pb-5 md:pb-1">
-                        <div class="w-full flex flex-row border-b text-lg font-semibold">
-                            <div class="w-1/2">
-                                Total de Ventas Procesadas 
-                            </div>
-                            <div class="w-1/4 flex justify-center">
-                                {{$ventas}}
-                            </div>
-                        </div>
-                        <div class="w-full flex flex-row border-b text-sm">
-                            <div class="w-1/2 px-3">
-                                Ventas Pagadas
-                            </div>
-                            <div class="w-1/4 flex justify-center">
-                                <a href="/transacciones_resumen_calculo/1/PAGO/1">{{$ventas}}</a>
-                            </div>
-                        </div>
-                        <div class="w-full flex flex-row border-b text-sm">
-                            <div class="w-1/2 px-3">
-                                Ventas NO Pagadas 
-                            </div>
-                            <div class="w-1/4 flex justify-center">
-                                <a href="/transacciones_resumen_calculo/1/NO PAGO/1">{{0}}</a>
-                            </div>
-                        </div>
-                    </div>  
-                    <div class="hidden md:block w-full px-3 pt-2">
-                        <div class="w-full flex flex-row text-lg font-semibold">
-                            <div class="w-1/2">
-                                 
-                            </div>
-                            <div class="w-1/4 flex justify-center">
-                                <div class="flex justify-center" id="chart_div_2" style="height: 110px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--<div class="w-1/3 flex justify-center p-3">
-                        
-                    </div> 
-                -->
-                </div>
-            </div>
         </div>
+        
         <div class="w-full flex flex-col items-start">
             <div class="w-full flex flex-col justify-center md:p-5 p-3">
                 <div class="w-full bg-gray-200 flex flex-col p-2 rounded-t-lg">Acciones y Resultados</div>
@@ -345,15 +223,23 @@
                     <div class="w-full flex flex-row pt-3 pt-8">
                         <div class="w-full md:w-1/2 flex flex-col justify-center items-center">
                             <div class="w-full flex justify-center flex-row">
-                                <div class="w-full flex justify-center text-center">
+                                <div class="w-1/2 flex justify-center text-center">
                                     <a href="{{route('comision_vendedores',['id'=>$calculo->id])}}">
+                                        <span class="text-gray-500 text-6xl font-bold fas fa-file-invoice-dollar"></span>
+                                    </a>
+                                </div>
+                                <div class="w-1/2 flex justify-center text-center">
+                                    <a href="{{route('comision_gerentes',['id'=>$calculo->id])}}">
                                         <span class="text-gray-500 text-6xl font-bold fas fa-file-invoice-dollar"></span>
                                     </a>
                                 </div>
                             </div>
                             <div class="w-full flex justify-center flex-row">
                                 <div class="w-1/2 flex justify-center text-center">
-                                    <span class="text-xs md:text-sm text-gray-700">Comisiones para {{$pagos}} colaboradores</span>
+                                    <span class="text-xs md:text-sm text-gray-700">Comisiones para {{$pagos_ejec}} vendedores</span>
+                                </div>
+                                <div class="w-1/2 flex justify-center text-center">
+                                    <span class="text-xs md:text-sm text-gray-700">Comisiones para {{$pagos_gte}} gerentes</span>
                                 </div>
                             </div>
                         </div>
@@ -362,7 +248,7 @@
                             <div><span class="hidden md:block text-2xl font-semibold text-gray-700">Estados de cuenta</span></div>
                             <div class="hidden md:block">
                                 <span class="text-xs md:text-sm text-gray-700">
-                                    -Revise el estado de cuenta de cada vendedor
+                                    -Revise el estado de cuenta de cada colaborador
                                 </span>
                             </div>
                         </div>

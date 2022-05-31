@@ -14,6 +14,8 @@ use App\Models\ComisionVentas;
 use App\Models\PagosVendedor;
 use App\Models\ComisionAddon;
 use App\Models\MedicionVendedor;
+use App\Models\MedicionGerente;
+use App\Models\GerenteTiendaCuota;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -151,7 +153,43 @@ class CalculoComisiones extends Controller
     }
     private function medicion_gerente($calculo)
     {
+        MedicionGerente::where('calculo_id',$calculo->id)->delete();
 
+        $sql_mediciones="
+            select area,sub_area,sum(ventas) as ventas FROM
+            (
+                SELECT b.area,b.sub_area,count(*) as ventas FROM comision_ventas a,ventas b where a.calculo_id='".$calculo->id."' and a.venta_id=b.id AND b.tipo='ACTIVACION' and b.plan in 
+                    (select id from plans where (nombre like '%ARMALO%' or nombre like '%SIMPLE%') AND nombre not like '%EMPR%'  ) 
+                AND a.cuenta=1
+                group by b.area,b.sub_area
+            UNION 
+                SELECT distinct area,sub_area,0 as ventas from ventas where fecha>='".$calculo->periodo->f_inicio."' and fecha<='".$calculo->periodo->f_fin."'
+            ) as a group by area,sub_area 
+        ";
+        $mediciones=DB::select(DB::raw($sql_mediciones));
+        $mediciones=collect($mediciones);
+        foreach($mediciones as $medicion)
+        {
+            $cuota_asignacion=GerenteTiendaCuota::where('periodo_id',$calculo->periodo_id)
+                                    ->where('area',$medicion->area)
+                                    ->where('sub_area',$medicion->sub_area)
+                                    ->get()
+                                    ->first();
+            $factor=$cuota_asignacion->cuota_ventas>0?$medicion->ventas/$cuota_asignacion->cuota_ventas:0;
+            if($factor<0.5) $factor=0;
+            if($factor>1.2) $factor=1.2;
+
+            MedicionGerente::create([
+                'calculo_id'=>$calculo->id,
+                'area'=>$medicion->area,
+                'sub_area'=>$medicion->sub_area,
+                'gerente_id'=>$cuota_asignacion->gerente_id,
+                'cuota_ventas'=>$cuota_asignacion->cuota_ventas,
+                'ventas'=>$medicion->ventas,
+                'factor'=>$factor
+            ]);
+            
+        }
     }
     private function comisiones($calculo)
     {
@@ -271,7 +309,94 @@ class CalculoComisiones extends Controller
     }
     private function comisiones_gerente($calculo)
     {
+        $sql_creditos="select a.*,b.nombre as plan_nombre from (SELECT b.*,a.cuenta as cuenta_proceso,a.paga as paga_proceso FROM comision_ventas a,ventas b where a.calculo_id='".$calculo->id."' and a.venta_id=b.id) as a,plans b where a.plan=b.id order by a.area,a.sub_area";
+        $creditos=DB::select(DB::raw($sql_creditos));
+        $creditos=collect($creditos);
 
+        $sub_area_anterior=0;
+
+        foreach($creditos as $credito)
+        {
+            $comision=0;
+            if($sub_area_anterior!=$credito->sub_area)
+            {
+                $factor_pago=0;
+                $mediciones=MedicionGerente::where('calculo_id',$calculo->id)
+                                            ->where('area',$credito->area)
+                                            ->where('sub_area',$credito->sub_area)
+                                            ->get()
+                                            ->first();
+                $factor_pago=$mediciones->factor;
+
+                $sql_addons="SELECT b.*,a.tipo as tipo_addon,a.id as id_comision FROM comision_addons a,ventas b where a.calculo_id='".$calculo->id."' and a.venta_id=b.id  and b.area='".$credito->area."' and b.sub_area='".$credito->sub_area."'";
+                $addons_comision=DB::select(DB::raw($sql_addons));
+                $addons_comision=collect($addons_comision);
+                foreach($addons_comision as $addon_vendido_sucursal)
+                {
+                    $comision_addon_vendido=0;
+                    if($factor_pago>=0.5)
+                    {
+                        if($addon_vendido_sucursal->tipo_addon=='ADDON CONTROL')
+                        {
+                            $comision_addon_vendido=12.93;
+                        }
+                        else
+                        {
+                            $comision_addon_vendido=0.3*$addon_vendido_sucursal->renta_seguro/1.16/1.03;
+                        }
+                        ComisionAddon::where('id',$addon_vendido_sucursal->id_comision)
+                                    ->update(['comision_gerente'=>$comision_addon_vendido]);
+                    }
+                }
+
+
+            }
+            if($credito->paga_proceso)
+            {
+                if($credito->tipo=='ACTIVACION')
+                {
+                    if(strpos(strtoupper($credito->plan_nombre),'ARMALO')!==false)
+                    {
+                        $comision=($credito->renta/1.16/1.03)*0.5*$factor_pago;
+                    }
+                    if(strpos(strtoupper($credito->plan_nombre),'SIMPLE')!==false)
+                    {
+                        $comision=($credito->renta/1.16/1.03)*0.3;
+                    }
+                    if(strpos(strtoupper($credito->plan_nombre),'NEG')!==false || strpos(strtoupper($credito->plan_nombre),'EMPR')!==false )
+                    {
+                        $comision=($credito->renta/1.16/1.03)*0.5*$factor_pago;
+                    }
+                }
+                if($credito->tipo=='RENOVACION')
+                {
+                    $comision=($credito->renta/1.16/1.03)*0.2; //ARMALO Y EMPRESARIAL
+
+                    if(strpos(strtoupper($credito->plan_nombre),'ARMALO')!==false && $credito->propiedad=='PROPIO')
+                    {
+                        $comision=0;
+                    }
+
+                    if($factor_pago<0.5)
+                    {
+                        $comision=0;
+                    }
+                }
+                if($credito->tipo=='ACCESORIO')
+                {
+                    $comision=0;
+                }
+                if($credito->tipo=='PREPAGO' && $factor_pago>=0.5)
+                {
+                    $comision=5;
+                }
+                ComisionVentas::where('calculo_id',$calculo->id)
+                            ->where('venta_id',$credito->id)
+                            ->update(['comision_gerente'=>$comision]);
+
+            }
+            $sub_area_anterior=$credito->sub_area;            
+        }
     }
 
     public function pagos($calculo)
@@ -342,7 +467,43 @@ class CalculoComisiones extends Controller
 
     public function pagos_gerente($calculo)
     {
-
+        $sql_ventas="
+        select area,sub_area,sum(comision) as comision from
+        (
+        SELECT ventas.area,ventas.sub_area,sum(comision_ventas.comision_gerente) as comision 
+                                FROM comision_ventas,ventas 
+                                where comision_ventas.venta_id=ventas.id and comision_ventas.calculo_id=".$calculo->id." 
+                                group by ventas.area,ventas.sub_area
+        UNION
+        SELECT ventas.area,ventas.sub_area,sum(comision_addons.comision_gerente) as comision 
+                                FROM comision_addons,ventas 
+                                where comision_addons.venta_id=ventas.id and comision_addons.calculo_id=".$calculo->id." 
+                                group by ventas.area,ventas.sub_area
+         ) as a group by a.area,a.sub_area
+         ";
+        $ventas_gerente=DB::select(DB::raw($sql_ventas));
+        $ventas_gerente=collect($ventas_gerente);
+        foreach($ventas_gerente as $comisiones_gerente)
+        {
+            $cuota_asignacion=GerenteTiendaCuota::where('periodo_id',$calculo->periodo_id)
+                                    ->where('area',$comisiones_gerente->area)
+                                    ->where('sub_area',$comisiones_gerente->sub_area)
+                                    ->get()
+                                    ->first();
+            $usuario=User::find($cuota_asignacion->gerente_id);
+            $subarea=SubArea::find($comisiones_gerente->sub_area);
+            PagosVendedor::create([
+                'calculo_id'=>$calculo->id,
+                'user_id'=>$cuota_asignacion->gerente_id,
+                'nombre'=>$usuario->name,
+                'sucursal'=>$subarea->nombre,
+                'comisiones'=>$comisiones_gerente->comision,
+                'bono_rentas'=>0,
+                'total_pago'=>$comisiones_gerente->comision,
+                'rol'=>'GERENTE' 
+                ]);
+        }
+        
     }
 
     public function seguimiento_calculo(Request $request)
@@ -369,11 +530,17 @@ class CalculoComisiones extends Controller
         $pagos=PagosVendedor::select(DB::raw('count(*) as n'))
                             ->where('calculo_id',$calculo->id)
                             ->get()->first()->n;
+        $pagos_ejec=PagosVendedor::select(DB::raw('count(*) as n'))
+                            ->where('rol','EJECUTIVO')
+                            ->where('calculo_id',$calculo->id)
+                            ->get()->first()->n;
 
         return (view('detalle_calculo',['ventas'=>$ventas,
                                         'validadas'=>$validadas,
                                         'calculo'=>$calculo,
                                         'pagos'=>$pagos,
+                                        'pagos_ejec'=>$pagos_ejec,
+                                        'pagos_gte'=>$pagos-$pagos_ejec,
                                     ]));
     }
 
