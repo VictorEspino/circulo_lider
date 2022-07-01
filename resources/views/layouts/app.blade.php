@@ -75,7 +75,10 @@
             }
 
             </style>
-
+            
+        <link href='{{asset('js/calendario/main.css')}}' rel='stylesheet' />
+        <script src='{{asset('js/calendario/main.js')}}'></script>
+        <script src='{{asset('js/calendario/es.js')}}'></script>
 
     </head>
     <body class="font-sans antialiased">
@@ -120,6 +123,76 @@
                             </div>
                         </div>
                         @endif
+                        <div class="px-3 font-semibold flex flex-col pt-3">
+                            <div class="text-slate-200 font-bold">
+                                <i class="fas fa-tasks"></i>
+                                Plan 100
+                            </div>
+                            <div class="flex flex-col" id="distribuidores">
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('plan100')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-amber-300"><i class="fas fa-list-ol"></i></span>
+                                        Seguimiento
+                                    </a>
+                                </div>   
+                            </div>
+                        </div>
+                        <div class="px-3 font-semibold flex flex-col pt-3">
+                            <div class="text-slate-200 font-bold">
+                                <i class="fas fa-tasks"></i>
+                                Cuadrante de Gestion
+                            </div>
+                            <div class="flex flex-col" id="distribuidores">
+                                
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('interaccion_nuevo')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-orange-500"><i class="fas fa-store"></i></span>
+                                        Flujo de Tienda
+                                    </a>
+                                </div>   
+                                
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('zona_influencia_nuevo')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-amber-300"><i class="fas fa-border-none"></i></span>
+                                        Zona de Influencia
+                                    </a>
+                                </div>
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('funnel_form',['origen'=>'CD'])}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-blue-500"><i class="fab fa-facebook"></i></span>
+                                        Contacto Digital
+                                    </a>
+                                </div>
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('funnel_form',['origen'=>'RF'])}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-amber-300"><i class="fas fa-users"></i></span>
+                                        Referidos
+                                    </a>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="px-3 font-semibold flex flex-col pt-3">
+                            <div class="text-slate-200 font-bold">
+                                <i class="fas fa-tasks"></i>
+                                Prospectos
+                            </div>
+                            <div class="flex flex-col" id="distribuidores">
+                                
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('seguimiento_funnel')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-orange-500"><i class="fas fa-file-signature"></i></span>
+                                        Seguimiento registros
+                                    </a>
+                                </div>   
+                                
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('show_calendario')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-amber-300"><i class="fas fa-database"></i></span>
+                                        Calendario
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="px-3 font-semibold flex flex-col pt-3">
                             <div class="text-slate-200 font-bold">
                                 <i class="fas fa-tasks"></i>

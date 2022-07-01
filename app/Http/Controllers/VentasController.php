@@ -12,12 +12,13 @@ class VentasController extends Controller
     public function show_nueva(Request $request)
     {
         $planes=Plan::where('estatus',1)->get();
-        return(view('ventas.nueva',['planes'=>$planes]));
+        return(view('ventas.nueva',['planes'=>$planes,'origen'=>$request->origen,'nombre'=>$request->nombre,'email'=>$request->email]));
     }
     public function save_nueva(Request $request)
     {
         //return($request->all());
         $request->validate([
+            'origen' => 'required',
             'tipo' => 'required',
             'fecha' => 'required',
             'cliente' => 'required',

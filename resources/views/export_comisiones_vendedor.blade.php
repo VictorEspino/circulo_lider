@@ -17,7 +17,8 @@ header("Expires: 0");
 <td style="background-color:#0000FF;color:#FFFFFF"><b>Contrato</td>
 <td style="background-color:#0000FF;color:#FFFFFF"><b>DN</td>
 <td style="background-color:#0000FF;color:#FFFFFF"><b>Propiedad</td>
-<td style="background-color:#0000FF;color:#FFFFFF"><b>Comision</td>
+<td style="background-color:#0000FF;color:#FFFFFF"><b>Comision VENDEDOR</td>
+<td style="background-color:#0000FF;color:#FFFFFF"><b>Comision GERENTE</td>
 </tr>
 <?php
 foreach ($comisiones as $comision) {
@@ -35,6 +36,7 @@ foreach ($comisiones as $comision) {
     <td>{{$comision->dn}}</td>
     <td>{{$comision->propiedad}}</td>
     <td>{{$comision->comision_vendedor}}</td>
+    <td>{{$comision->comision_gerente}}</td>
 
 	</tr>
 <?php
@@ -56,6 +58,7 @@ foreach ($comisiones_addon as $comision) {
     <td>{{$comision->dn}}</td>
     <td>{{$comision->propiedad}}</td>
     <td>{{$comision->comision_vendedor}}</td>
+    <td>{{$comision->comision_gerente}}</td>
 
 	</tr>
 <?php

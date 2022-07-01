@@ -202,7 +202,7 @@ class DetalleVenta extends Component
                         'dn'=>$opcion->dn_actual,
                         'co_id'=>$opcion->co_id,
                         'servicio'=>$opcion->plan_actual." | ".$opcion->renta_actual." | ".$opcion->plazo_actual,
-                        'ejecutivo'=>$$opcion->id_ejecutivo." | ".$opcion->nombre_ejecutivo,
+                        'ejecutivo'=>$opcion->id_ejecutivo." | ".$opcion->nombre_ejecutivo,
                         'estatus'=>$opcion->fecha_activacion_contrato." | ".$opcion->status_renovacion." | ".$opcion->fecha_status,
                         'usado'=>$usado
                     ];

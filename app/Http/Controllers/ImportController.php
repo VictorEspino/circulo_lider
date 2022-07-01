@@ -182,8 +182,25 @@ class ImportController extends Controller
         }
 
         }
+        $this->elimina_duplicados_pospago($carga_id);
     }
-
+    private function elimina_duplicados_pospago($carga_id)
+    {
+        $id_cargados=CisPospago::select('id')->where('carga_id',$carga_id)->get();
+        $id_cargados=$id_cargados->pluck('id');
+        $incidencias=Venta::select(DB::raw('cis_row_id,count(*) as n'))
+                        ->whereIn('cis_row_id',$id_cargados)
+                        ->groupBy('cis_row_id')
+                        ->get();
+        foreach($incidencias as $ocurrencia)
+        {
+            if($ocurrencia->n>1)
+            {
+                Venta::where('cis_row_id',$ocurrencia->cis_row_id)
+                        ->update(['cis_id'=>'-1','cis_row_id'=>0]);
+            }
+        }
+    }
     public function carga_cis_renovacion(Request $request) 
     {
         $request->validate([
@@ -353,6 +370,24 @@ class ImportController extends Controller
                 ]);
             }
 
+        }
+        $this->elimina_duplicados_renovacion($carga_id);
+    }
+    private function elimina_duplicados_renovacion($carga_id)
+    {
+        $id_cargados=CisRenovacion::select('id')->where('carga_id',$carga_id)->get();
+        $id_cargados=$id_cargados->pluck('id');
+        $incidencias=Venta::select(DB::raw('cis_row_id,count(*) as n'))
+                        ->whereIn('cis_row_id',$id_cargados)
+                        ->groupBy('cis_row_id')
+                        ->get();
+        foreach($incidencias as $ocurrencia)
+        {
+            if($ocurrencia->n>1)
+            {
+                Venta::where('cis_row_id',$ocurrencia->cis_row_id)
+                        ->update(['cis_id'=>'-1','cis_row_id'=>0]);
+            }
         }
     }
 }

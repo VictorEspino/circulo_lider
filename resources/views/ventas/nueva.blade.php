@@ -18,7 +18,21 @@
             @csrf
         <div class="w-full rounded-b-lg bg-white p-3 flex flex-col space-y-2"> <!--CONTENIDO-->
             <div class="w-full flex flex-row space-x-2">
-                <div class="w-1/2">
+                <div class="w-1/3">
+                    <x-jet-label>Origen del contacto</x-jet-label>
+                    <select class="w-full border-gray-300 focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50 rounded-md shadow-sm py-1" name="origen" id="origen">
+                        <option value="" class=""></option>
+                        <option value="Tienda" class="" {{old('origen')=='Tienda'?'selected':''}}>Tienda</option>
+                        <option value="ZONA DE INFLUENCIA" class="" {{old('origen')=='ZONA DE INFLUENCIA'?'selected':''}}>ZONA DE INFLUENCIA</option>
+                        <option value="CONTACTO DIGITAL" class="" {{old('origen')=='CONTACTO DIGITAL'?'selected':''}}>CONTACTO DIGITAL</option>
+                        <option value="REFERIDO" class="" {{old('origen')=='REFERIDO'?'selected':''}}>REFERIDO</option>
+                    </select>    
+                    @error('origen')
+                      <br><span class="text-xs italic text-red-700 text-xs">{{ $message }}</span>
+                    @enderror                    
+                    
+                </div>
+                <div class="w-1/3">
                     <x-jet-label>Movimiento</x-jet-label>
                     <select class="w-full border-gray-300 focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50 rounded-md shadow-sm py-1" name="tipo">
                         <option value="" class=""></option>
@@ -32,7 +46,7 @@
                     @enderror                    
                     
                 </div>
-                <div class="w-1/2">
+                <div class="w-1/3">
                     <x-jet-label>Fecha</x-jet-label>
                     <x-jet-input type="date" class="w-full" name="fecha" value="{{old('fecha')}}"></x-jet-input>
                     @error('fecha')
@@ -43,7 +57,7 @@
             <div class="w-full flex flex-col space-x-0 space-y-2 md:flex-row md:space-x-2 md:space-y-0">
                 <div class="w-full md:w-1/2">
                     <x-jet-label>Cliente</x-jet-label>
-                    <x-jet-input type="text" class="w-full" name="cliente" value="{{old('cliente')}}"></x-jet-input>
+                    <x-jet-input type="text" class="w-full" name="cliente" value="{{old('cliente')}}" id="nombre"></x-jet-input>
                     @error('cliente')
                       <br><span class="text-xs italic text-red-700 text-xs">{{ $message }}</span>
                     @enderror                    
@@ -59,7 +73,7 @@
                 </div>
                 <div class="w-full md:w-1/4">
                     <x-jet-label>email</x-jet-label>
-                    <x-jet-input type="text" class="w-full" name="mail_cliente" value="{{old('mail_cliente')}}"></x-jet-input>
+                    <x-jet-input type="text" class="w-full" name="mail_cliente" value="{{old('mail_cliente')}}" id='email'></x-jet-input>
                     @error('mail_cliente')
                       <br><span class="text-xs italic text-red-700 text-xs">{{ $message }}</span>
                     @enderror                    
@@ -218,4 +232,11 @@
         </div>
         </form>
     </div>
+    @if($origen!='')
+    <script> 
+        document.getElementById('origen').value='{{$origen}}';
+        document.getElementById('nombre').value='{{$nombre}}';
+        document.getElementById('email').value='{{$email}}';
+    </script>
+    @endif
 </x-app-layout>

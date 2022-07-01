@@ -553,14 +553,14 @@ class CalculoComisiones extends Controller
     public function export_comisiones_vendedor(Request $request)
     {
         $sql_comisiones="
-                         SELECT ventas.*,comision_ventas.comision_vendedor 
+                         SELECT ventas.*,comision_ventas.comision_vendedor,comision_ventas.comision_gerente 
                          FROM comision_ventas,ventas  
                          WHERE comision_ventas.venta_id=ventas.id
                          AND comision_ventas.calculo_id='".$request->id."'
                          ";
 
         $sql_addons="
-                        SELECT ventas.*,comision_addons.tipo as tipo_addon,comision_addons.comision_vendedor 
+                        SELECT ventas.*,comision_addons.tipo as tipo_addon,comision_addons.comision_vendedor,comision_addons.comision_gerente 
                         FROM comision_addons,ventas  
                         WHERE comision_addons.venta_id=ventas.id
                         AND comision_addons.calculo_id='".$request->id."'

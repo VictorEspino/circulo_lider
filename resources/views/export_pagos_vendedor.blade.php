@@ -6,6 +6,7 @@ header("Expires: 0");
 ?>
 <table border=1>
 <tr style="background-color:#777777;color:#FFFFFF">
+<td><b>Rol</td>
 <td><b>Usuario</td>
 <td><b>Nombre</td>
 <td><b>Tienda</td>
@@ -17,6 +18,7 @@ header("Expires: 0");
 foreach ($pagos as $pago) {
 	?>
 	<tr>
+	<td>{{$pago->rol}}</td>
 	<td>{{$pago->ejecutivo->user}}</td>
     <td>{{$pago->ejecutivo->name}}</td>
     <td>{{$pago->ejecutivo->subarea->nombre}}</td>

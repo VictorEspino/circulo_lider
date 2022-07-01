@@ -35,9 +35,11 @@ class CisRenovacionImport implements ToModel,WithHeadingRow,WithValidation,WithB
         $fecha_activacion_contrato=$row['fecha_activacion_contrato'];
         $fecha_activacion_contrato_db=\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecha_activacion_contrato);
 
+        
+
         return new CisRenovacion([
                             'no_contrato_impreso'=>$row['no_contrato_impreso'],
-                            'id_orden_renovacion'=>$row['id_orden_renovacion'],
+                            'id_orden_renovacion'=>"".$row['id_orden_renovacion']."",
                             'cuenta_cliente'=>$row['cuenta_cliente'],
                             'status_renovacion'=>$row['status_renovacion'],
                             'fecha_status'=>$fecha_status_db,
@@ -50,7 +52,7 @@ class CisRenovacionImport implements ToModel,WithHeadingRow,WithValidation,WithB
                             'plan_actual'=>$row['plan_actual'],
                             'renta_actual'=>$row['renta_actual'],
                             'plazo_actual'=>$row['plazo_actual'],
-                            'dn_actual'=>$row['dn_actual'],
+                            'dn_actual'=>"".$row['dn_actual']."",
                             'propiedad'=>$row['propiedad'],
                             'carga_id'=>$this->carga_id,
                             'user_id'=>Auth::user()->id
