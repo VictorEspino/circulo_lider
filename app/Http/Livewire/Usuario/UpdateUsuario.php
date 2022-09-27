@@ -99,6 +99,7 @@ class UpdateUsuario extends Component
     private function validacion()
     {
         $reglas = [
+            'user'=>'required|unique:users,user',
             'email'=>'required|email',
             'nombre' => 'required',
             'puesto' => 'required',

@@ -14,9 +14,19 @@
             <form class="w-full" action="{{route('base_ventas')}}" class="">
             <input type="hidden" name="filtro" value="ACTIVE"> 
             <div class="w-full flex flex-row space-x-2 bg-slate-400 py-3 px-3">
-                    <div class="w-1/3">
+                    <div class="w-1/6">
                         <x-jet-label class="text-white text-sm">Buscar cliente / contrato / dn</x-jet-label>
                         <x-jet-input class="w-full" type="text" name="query" value="{{$query}}" placeholder=""></x-jet-input>
+                    </div>
+                    
+                    <div class="w-1/6">
+                        <x-jet-label class="text-white text-sm">Sucursal</x-jet-label>
+                        <select class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm py-1" name="sucursal">
+                            <option value="" class=""></option>
+                            @foreach($sucursales as $tienda)
+                            <option value="{{$tienda->id}}" class="" {{$sucursal==$tienda->id?'selected':''}}>{{$tienda->nombre}}</option>
+                            @endforeach
+                        </select>  
                     </div>
                     <div class="w-1/6">
                         <x-jet-label class="text-white text-sm">Tipo Venta</x-jet-label>
@@ -28,7 +38,7 @@
                             <option value="ACCESORIO" class="" {{$tipo=='ACCESORIO'?'selected':''}}>ACCESORIO</option>
                         </select>  
                     </div>
-                    <div class="w-1/6">
+                    <div class="w-1/12">
                         <x-jet-label class="text-white text-sm">Validado CIS</x-jet-label>
                         <select class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm py-1" name="validado_cis">
                             <option value="" class=""></option>
@@ -36,7 +46,7 @@
                             <option value="NO" class="" {{$validado_cis=='NO'?'selected':''}}>NO</option>
                         </select>  
                     </div>
-                    <div class="w-1/6">
+                    <div class="w-1/12">
                         <x-jet-label class="text-white text-sm">Doc Completa</x-jet-label>
                         <select class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm py-1" name="doc_completa">
                             <option value="" class=""></option>
@@ -52,6 +62,18 @@
                         <x-jet-label class="text-white text-sm">Hasta:</x-jet-label>
                         <x-jet-input class="w-full" type="date" name="f_fin" value="{{$f_fin}}"></x-jet-input>
                     </div>
+                    @if(Auth::user()->puesto==4)
+                    <div class="w-1/12">
+                        <x-jet-label class="text-white text-sm">Excel</x-jet-label>
+                        <select class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm py-1" name="excel">
+                            <option value="" class=""></option>
+                            <option value="NO" class="" {{$excel=='NO'?'selected':''}}>NO</option>
+                            <option value="SI" class="" {{$excel=='SI'?'selected':''}}>SI</option>
+                        </select>  
+                    </div>
+                    @else
+                        <input type="hidden" name="excel" value="NO">
+                    @endif
                     <div class="w-1/6 flex justify-center">
                         <x-jet-button>Buscar</x-jet-button>
                     </div>

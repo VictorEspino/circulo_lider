@@ -80,7 +80,7 @@ class EstadosCuenta extends Controller
         $comisiones_addon=collect($comisiones_addon);
         $planes=Plan::all();
         $planes=$planes->pluck('nombre','id');
-        return(view('comisiones.estado_cuenta_vendedor',['calculo'=>$calculo,'pago'=>$pago,'medicion'=>$medicion,'comisiones'=>$comisiones,'planes'=>$planes,'comisiones_addon'=>$comisiones_addon]));
+        return(view('comisiones.estado_cuenta_vendedor',['version'=>2,'calculo'=>$calculo,'pago'=>$pago,'medicion'=>$medicion,'comisiones'=>$comisiones,'planes'=>$planes,'comisiones_addon'=>$comisiones_addon]));
     }
 
     public function gerentes(Request $request)
@@ -116,6 +116,7 @@ class EstadosCuenta extends Controller
 
     public function estado_cuenta_gerente(Request $request)
     {
+        $version=2;
         $medicion=MedicionGerente::where('gerente_id',$request->user_id)
                                     ->where('calculo_id',$request->id)
                                     ->get()->first();
@@ -150,7 +151,7 @@ class EstadosCuenta extends Controller
         $comisiones_addon=collect($comisiones_addon);
         $planes=Plan::all();
         $planes=$planes->pluck('nombre','id');
-        return(view('comisiones.estado_cuenta_gerente',['calculo'=>$calculo,'pago'=>$pago,'medicion'=>$medicion,'comisiones'=>$comisiones,'planes'=>$planes,'comisiones_addon'=>$comisiones_addon]));
+        return(view('comisiones.estado_cuenta_gerente',['calculo'=>$calculo,'pago'=>$pago,'medicion'=>$medicion,'comisiones'=>$comisiones,'planes'=>$planes,'comisiones_addon'=>$comisiones_addon,'version'=>$version]));
     }
 
 }

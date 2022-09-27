@@ -8,6 +8,8 @@ use App\Http\Controllers\ImportController;
 use App\Http\Controllers\CalculoComisiones;
 use App\Http\Controllers\EstadosCuenta;
 use App\Http\Controllers\FunnelController;
+use App\Http\Controllers\ConciliacionController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Livewire\Usuario\Show;
 use App\Http\Livewire\Cuotas\Gerentes;
 use App\Http\Livewire\Plan100\Seguimiento;
@@ -35,9 +37,7 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('/', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+Route::get('/',[DashboardController::class,'principal'])->middleware('auth')->name('dashboard');
 
 Route::get('/usuarios',Show::class)->name('usuarios')->middleware('auth');
 
@@ -100,3 +100,15 @@ Route::post('/funnel_form',[FunnelController::class,'funnel_save'])->name('funne
 //PLAN 100
 
 Route::get('/plan100',Seguimiento::class)->name('plan100')->middleware('auth');
+
+//CONCILIACION
+
+Route::get('/conciliacion_nuevo',[ConciliacionController::class,'vista_nuevo'])->middleware('auth')->name('conciliacion_nuevo');
+Route::post('/conciliacion_nuevo',[ConciliacionController::class,'conciliacion_nuevo'])->middleware('auth')->name('conciliacion_nuevo');
+Route::get('/seguimiento_conciliacion',[ConciliacionController::class,'seguimiento_conciliacion'])->middleware('auth')->name('seguimiento_conciliacion');
+Route::get('/detalle_conciliacion',[ConciliacionController::class,'detalle_conciliacion'])->middleware('auth')->name('detalle_conciliacion');
+Route::post('/callidus_import', [ConciliacionController::class,'callidus_import'])->middleware('auth')->name('callidus_import')->middleware('auth');
+Route::post('/callidus_residual_import', [ConciliacionController::class,'callidus_residual_import'])->middleware('auth')->name('callidus_residual_import')->middleware('auth');
+Route::get('/reclamos_export/{id}',[ConciliacionController::class,'reclamos_export'])->name('reclamos_export')->middleware('auth');
+Route::get('/reclamos_residual_export/{id}',[ConciliacionController::class,'reclamos_residual_export'])->name('reclamos_residual_export')->middleware('auth');
+

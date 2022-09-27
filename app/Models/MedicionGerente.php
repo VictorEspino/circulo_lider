@@ -16,6 +16,10 @@ class MedicionGerente extends Model
         'gerente_id',
         'cuota_ventas',
         'ventas',
-        'factor'
+        'cuota',
+        'factor',
+        'plantilla_autorizada',
+        'ejecutivos_activos',
+        'ejecutivos_productivos'
     ];
 }

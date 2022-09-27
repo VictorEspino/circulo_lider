@@ -26,7 +26,7 @@ foreach ($comisiones as $comision) {
 	<tr>
 	<td>{{$comision->ejecutivo}}</td>
     <td>{{$usuarios[$comision->ejecutivo]}}</td>
-    <td>{{$tiendas[$usuario_tienda[$comision->ejecutivo]]}}</td>
+    <td>{{$ultimas_tiendas[$comision->ejecutivo]}}</td>
     <td>{{$comision->tipo}}</td>
     <td>{{$comision->fecha}}</td>
     <td>{{$planes[$comision->plan]}}</td>
@@ -48,7 +48,7 @@ foreach ($comisiones_addon as $comision) {
 	<tr>
 	<td>{{$comision->ejecutivo}}</td>
     <td>{{$usuarios[$comision->ejecutivo]}}</td>
-    <td>{{$tiendas[$usuario_tienda[$comision->ejecutivo]]}}</td>
+    <td>{{$ultimas_tiendas[$comision->ejecutivo]}}</td>
     <td>{{$comision->tipo_addon}}</td>
     <td>{{$comision->fecha}}</td>
     <td>{{$planes[$comision->plan]}}</td>

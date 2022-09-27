@@ -32,6 +32,7 @@ class Gerentes extends Component
     {
         $this->gerentes=User::where('puesto',2)
                                 ->whereIn('area',[2,3,6])
+                                ->where('visible',1)
                                 ->orderBy('name')
                                 ->get();
         $this->actualiza_periodos();

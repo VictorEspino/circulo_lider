@@ -28,7 +28,7 @@
                 <div class="w-full mb-2 flex flex-row space-x-3">
                     <div class="w-1/2">
                         <x-jet-label value="User" />
-                        <x-jet-input class="w-full text-sm" type="text"  wire:model.defer="user" readonly/>
+                        <x-jet-input class="w-full text-sm" type="text"  wire:model.defer="user"/>
                         @error('user') <span class="text-xs text-red-400">{{ $message }}</span> @enderror
                     </div>
                     <div class="w-1/2">
