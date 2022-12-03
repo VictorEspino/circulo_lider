@@ -125,6 +125,7 @@
                             </div>
                         </div>
                         @endif
+                        <!--
                         <div class="px-3 font-semibold flex flex-col pt-3">
                             <div class="text-slate-200 font-bold">
                                 <i class="fas fa-tasks"></i>
@@ -139,6 +140,7 @@
                                 </div>   
                             </div>
                         </div>
+                        
                         <div class="px-3 font-semibold flex flex-col pt-3">
                             <div class="text-slate-200 font-bold">
                                 <i class="fas fa-tasks"></i>
@@ -195,6 +197,7 @@
                                 </div>
                             </div>
                         </div>
+                        -->
                         <div class="px-3 font-semibold flex flex-col pt-3">
                             <div class="text-slate-200 font-bold">
                                 <i class="fas fa-tasks"></i>
@@ -231,6 +234,33 @@
                                 @endif
                             </div>
                         </div>
+                    
+                        @if (Auth::user()->perfil!=1)
+                        <div class="px-3 font-semibold flex flex-col pt-3">
+                            <div class="text-slate-200 font-bold">
+                                <i class="fas fa-tasks"></i>
+                                Comisiones e Incentivos
+                            </div>
+                            <div class="flex flex-col" id="distribuidores">
+                                
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('calculos_disponibles_comercial')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-orange-500"><i class="fas fa-file-signature"></i></span>
+                                        Mis comisiones
+                                    </a>
+                                </div>                             
+                            </div>
+                            <div class="flex flex-col" id="distribuidores">
+                                
+                                <div class="pl-5 pt-2">
+                                    <a href="{{route('vista_boletos')}}" class="text-slate-200 hover:text-slate-400">
+                                        <span class="text-orange-500"><i class="fas fa-file-signature"></i></span>
+                                        Boletos - Concurso
+                                    </a>
+                                </div>                             
+                            </div>
+                        </div>
+                        @endif
                         @if (Auth::user()->perfil==1)
                         <div class="px-3 font-semibold flex flex-col pt-3">
                             <div class="text-slate-200 font-bold">

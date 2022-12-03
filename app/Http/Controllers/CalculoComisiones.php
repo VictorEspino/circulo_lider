@@ -448,8 +448,11 @@ class CalculoComisiones extends Controller
                             if($credito->renta>=500 && $credito->renta<600) {
                                 $comision=250;
                             }
-                            if($credito->renta>=600) {
+                            if($credito->renta>=600 && $credito->renta<800) {
                                 $comision=300;
+                            }
+                            if($credito->renta>=800) {
+                                $comision=400;
                             }
                             if($ventas_volumen>=$piso && $credito->renta>=300) 
                             {
@@ -476,23 +479,30 @@ class CalculoComisiones extends Controller
                         {
                             $comision=100;
                         }
-                        if(strpos(strtoupper($credito->plan_nombre),'NEG')!==false || strpos(strtoupper($credito->plan_nombre),'EMPR')!==false )
+                        if(strpos(strtoupper($credito->plan_nombre),'INTERNET')!==false && $ventas_volumen>=$piso)
+                        {
+                            $comision=120;
+                        }
+                        if((strpos(strtoupper($credito->plan_nombre),'NEG')!==false || strpos(strtoupper($credito->plan_nombre),'EMPR')!==false ) && strpos(strtoupper($credito->plan_nombre),'SIMPLE')===false)
                         {
                             if($credito->renta<300) {
-                                $comision=100;
-                            }
-                            if($credito->renta>=300 && $credito->renta<500) {
                                 $comision=200;
                             }
-                            if($credito->renta>=500 && $credito->renta<600) {
+                            if($credito->renta>=300 && $credito->renta<500) {
                                 $comision=250;
                             }
-                            if($credito->renta>=600) {
+                            if($credito->renta>=500 && $credito->renta<600) {
                                 $comision=300;
+                            }
+                            if($credito->renta>=600 && $credito->renta<800) {
+                                $comision=400;
+                            }
+                            if($credito->renta>=800) {
+                                $comision=500;
                             }
                             if($ventas_volumen<$piso) 
                             {
-                                $comision=0;
+                                //$comision=0; SE DESLIGA DEL PISO
                             }
                         }
                         
@@ -510,8 +520,11 @@ class CalculoComisiones extends Controller
                             if($credito->renta>=500 && $credito->renta<600) {
                                 $comision=150;
                             }
-                            if($credito->renta>=600) {
+                            if($credito->renta>=600 && $credito->renta<800) {
                                 $comision=180;
+                            }
+                            if($credito->renta>=800) {
+                                $comision=230;
                             }
                             if($ventas_volumen>=$piso && $credito->renta>=300) 
                             {
@@ -522,23 +535,26 @@ class CalculoComisiones extends Controller
                         {
                             $comision=60;
                         }
-                        if(strpos(strtoupper($credito->plan_nombre),'NEG')!==false || strpos(strtoupper($credito->plan_nombre),'EMPR')!==false )
+                        if((strpos(strtoupper($credito->plan_nombre),'NEG')!==false || strpos(strtoupper($credito->plan_nombre),'EMPR')!==false ) && strpos(strtoupper($credito->plan_nombre),'SIMPLE')===false)
                         {
                             if($credito->renta<300) {
-                                $comision=60;
-                            }
-                            if($credito->renta>=300 && $credito->renta<500) {
                                 $comision=120;
                             }
-                            if($credito->renta>=500 && $credito->renta<600) {
+                            if($credito->renta>=300 && $credito->renta<500) {
                                 $comision=150;
                             }
-                            if($credito->renta>=600) {
+                            if($credito->renta>=500 && $credito->renta<600) {
                                 $comision=180;
+                            }
+                            if($credito->renta>=600 && $credito->renta<800) {
+                                $comision=230;
+                            }
+                            if($credito->renta>=800) {
+                                $comision=380;
                             }
                             if($ventas_volumen<$piso) 
                             {
-                                $comision=0;
+                                //$comision=0; SE DESLIGA DEL PISO
                             }
                         }
                     }
@@ -700,7 +716,7 @@ class CalculoComisiones extends Controller
                     {$cumple_plantilla="SI";}
 
                     //CONDICION ESPECIAL
-                    $cumple_plantilla="SI";
+                    //$cumple_plantilla="SI";
 
                     $cumple_productivos="NO";
                     if($mediciones->ejecutivos_productivos>=$mediciones->plantilla_autorizada)
@@ -760,6 +776,10 @@ class CalculoComisiones extends Controller
                     $comision=0;
                     if($credito->tipo=='ACTIVACION')
                     {
+                        if(strpos(strtoupper($credito->plan_nombre),'INTERNET')!==false && $logro_cuota>=0.5)
+                        {
+                            $comision=65;
+                        }
                         if(strpos(strtoupper($credito->plan_nombre),'ARMALO')!==false)
                         {
                             if($logro_cuota>=0.5)
@@ -773,8 +793,11 @@ class CalculoComisiones extends Controller
                                 if($credito->renta>=500 && $credito->renta<600) {
                                     $comision=130;
                                 }
-                                if($credito->renta>=600) {
+                                if($credito->renta>=600 && $credito->renta<800) {
                                     $comision=150;
+                                }
+                                if($credito->renta>=800) {
+                                    $comision=200;
                                 }
                             }
                             if($logro_cuota>=0.8 && $cumple_plantilla=="SI")
@@ -788,8 +811,11 @@ class CalculoComisiones extends Controller
                                 if($credito->renta>=500 && $credito->renta<600) {
                                     $comision=200;
                                 }
-                                if($credito->renta>=600) {
+                                if($credito->renta>=600 && $credito->renta<800) {
                                     $comision=230;
+                                }
+                                if($credito->renta>=800) {
+                                    $comision=300;
                                 }
                             }
                             if($logro_cuota>=1 && $cumple_plantilla=="SI")
@@ -803,8 +829,11 @@ class CalculoComisiones extends Controller
                                 if($credito->renta>=500 && $credito->renta<600) {
                                     $comision=260;
                                 }
-                                if($credito->renta>=600) {
+                                if($credito->renta>=600 && $credito->renta<800) {
                                     $comision=300;
+                                }
+                                if($credito->renta>=600) {
+                                    $comision=400;
                                 }
                             }
                             if($logro_cuota>=1 && $cumple_plantilla=="SI" && $cumple_productivos=="SI")
@@ -818,8 +847,11 @@ class CalculoComisiones extends Controller
                                 if($credito->renta>=500 && $credito->renta<600) {
                                     $comision=300;
                                 }
-                                if($credito->renta>=600) {
+                                if($credito->renta>=600 && $credito->renta<800) {
                                     $comision=350;
+                                }
+                                if($credito->renta>=800) {
+                                    $comision=450;
                                 }
                             }
 
@@ -829,7 +861,7 @@ class CalculoComisiones extends Controller
                                 $comision=40;
                             }
                         }
-                        if(strpos(strtoupper($credito->plan_nombre),'SIMPLE')!==false)
+                        if(strpos(strtoupper($credito->plan_nombre),'SIMPLE')!==false && $logro_cuota>=0.5)
                         {
                             $comision=50;
                         }
@@ -848,8 +880,11 @@ class CalculoComisiones extends Controller
                             if($credito->renta>=500 && $credito->renta<600) {
                                 $comision=80;
                             }
-                            if($credito->renta>=600) {
+                            if($credito->renta>=600 && $credito->renta<800) {
                                 $comision=90;
+                            }
+                            if($credito->renta>=800) {
+                                $comision=120;
                             }
                             
                             if($logro_cuota>=0.8 && $cumple_plantilla=="SI")
@@ -863,8 +898,11 @@ class CalculoComisiones extends Controller
                                 if($credito->renta>=500 && $credito->renta<600) {
                                     $comision=130;
                                 }
-                                if($credito->renta>=600) {
+                                if($credito->renta>=600 && $credito->renta<800) {
                                     $comision=150;
+                                }
+                                if($credito->renta>=800) {
+                                    $comision=180;
                                 }
                             }
                             

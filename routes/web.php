@@ -10,9 +10,11 @@ use App\Http\Controllers\EstadosCuenta;
 use App\Http\Controllers\FunnelController;
 use App\Http\Controllers\ConciliacionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EstadoCuentaComercial;
 use App\Http\Livewire\Usuario\Show;
 use App\Http\Livewire\Cuotas\Gerentes;
 use App\Http\Livewire\Plan100\Seguimiento;
+use App\Http\Controllers\VistaBoletos;
 
 
 /*
@@ -112,3 +114,11 @@ Route::post('/callidus_residual_import', [ConciliacionController::class,'callidu
 Route::get('/reclamos_export/{id}',[ConciliacionController::class,'reclamos_export'])->name('reclamos_export')->middleware('auth');
 Route::get('/reclamos_residual_export/{id}',[ConciliacionController::class,'reclamos_residual_export'])->name('reclamos_residual_export')->middleware('auth');
 
+//RUTAS VENDEDOR PARA ESTADOS DE CUENTA DE COMISIONES
+
+Route::get('/estado_cuenta_comercial',[EstadoCuentaComercial::class,'estado_cuenta_comercial'])->name('estado_cuenta_comercial')->middleware('auth');
+Route::get('/calculos_disponibles_comercial',[EstadoCuentaComercial::class,'calculos_disponibles_comercial'])->name('calculos_disponibles_comercial')->middleware('auth');
+
+//CONCURSO
+
+Route::get('/boletos',[VistaBoletos::class,'vista_boletos'])->name('vista_boletos');

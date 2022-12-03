@@ -299,7 +299,7 @@
                             Suman las VENTAS DE PLANES ARMALO Y PLANES SIMPLE
                         </div> 
                         <div class="font-bold text-xs">
-                            Necesitas minimo 4 ventas en este renglon para acceder a los aceleradores que duplican tu comision, asi cobrar ventas adicionales y otros servicios.
+                        Necesitas cumplir tu PISO DE VENTAS semanal para acceder a los aceleradores que duplican tu comision, asi cobrar ventas adicionales y otros servicios.
                         </div> 
                     </div>
                 </div>

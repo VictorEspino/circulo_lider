@@ -254,7 +254,13 @@
                         <div class="w-1/6 text-xs"></div>
                         <div class="w-1/2 text-xs"> Cubierta</div>
                         <div class="w-1/6 text-xs font-bold">{{$medicion->ejecutivos_activos}}</div>
-                        <div class="w-1/6 text-base font-bold"><i class="fas fa-check text-green-500"></i></div>
+                        <div class="w-1/6 text-base font-bold">
+                            @if($medicion->ejecutivos_activos>=$medicion->plantilla_autorizada)
+                            <i class="fas fa-check text-green-500"></i>
+                            @else
+                            <i class="fas fa-times text-red-400"></i>
+                            @endif
+                        </div>
                     </div>
                     <div class="w-full flex flex-row">
                         <div class="w-1/6 text-xs"></div>
@@ -269,7 +275,7 @@
                         </div>
                     </div>
                     <div class="flex flex-row pt-3">
-                        <div class="font-normal text-xs">Se ortga el indicador de plantilla cubierta como OK hasta el dia 18 de Septiembre de 2022, posterior a esta fecha el indicador se mide de acuerdo al esquema.</div> 
+                        <div class="font-normal text-xs"></div> 
                     </div>
                 </div>
                 <div class="w-1/3 flex flex-col bg-gradient-to-br from-black to-slate-500 text-white rounded-lg py-3 px-3">
